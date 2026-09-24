@@ -235,6 +235,30 @@
                         </span>
                     </td>
                     <td>
+                        <details>
+                            <summary style="cursor:pointer; color:var(--accent2);">Editar</summary>
+                            <form action="{{ route('admin.actualizar-curso', $curso->id) }}" method="POST" style="min-width:260px; padding-top:0.75rem;">
+                                @csrf
+                                @method('PUT')
+                                <input class="form-control" name="nombre" value="{{ $curso->nombre }}" required>
+                                <input class="form-control" name="categoria" value="{{ $curso->categoria }}" placeholder="Categoría" style="margin-top:0.4rem;">
+                                <select class="form-control" name="nivel" style="margin-top:0.4rem;">
+                                    @foreach(['basico' => 'Básico', 'intermedio' => 'Intermedio', 'avanzado' => 'Avanzado'] as $valor => $etiqueta)
+                                        <option value="{{ $valor }}" @selected($curso->nivel === $valor)>{{ $etiqueta }}</option>
+                                    @endforeach
+                                </select>
+                                <input class="form-control" type="number" name="duracion_horas" value="{{ $curso->duracion_horas }}" min="1" placeholder="Horas" style="margin-top:0.4rem;">
+                                <textarea class="form-control" name="descripcion" rows="2" placeholder="Descripción" style="margin-top:0.4rem;">{{ $curso->descripcion }}</textarea>
+                                <button type="submit" class="btn-primary" style="margin-top:0.4rem; padding:0.3rem 0.75rem; border:0; border-radius:6px; cursor:pointer;">Guardar</button>
+                            </form>
+                        </details>
+                        <form action="{{ route('admin.cambiar-estado-curso', $curso->id) }}" method="POST" style="display:inline">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="btn-outline" style="padding:0.3rem 0.75rem; border-radius:6px; cursor:pointer; font-family:inherit; font-size:0.8rem;">
+                                {{ $curso->activo ? 'Desactivar' : 'Activar' }}
+                            </button>
+                        </form>
                         <form action="{{ route('admin.eliminar-curso', $curso->id) }}" method="POST"
                             onsubmit="return confirm('¿Eliminar el curso {{ $curso->nombre }}?')" style="display:inline">
                             @csrf

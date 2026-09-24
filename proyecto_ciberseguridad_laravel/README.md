@@ -1,4 +1,36 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CiberEskola
+
+Aplicacion web educativa de ciberseguridad construida con Laravel. Incluye autenticacion, roles de administracion y alumnado, gestion CRUD de cursos, matriculas y pruebas automatizadas.
+
+## Documentacion de infraestructura
+
+- [Infraestructura de red, VLAN, puertos, Proxmox y AD](docs/infraestructura-red.md)
+- [Evidencias OF y checklist de evaluacion](docs/evidencias-of.md)
+
+La documentacion distingue entre la configuracion implementada en el codigo y las comprobaciones que deben realizarse en el laboratorio fisico o virtual.
+
+## Puesta en marcha
+
+```bash
+composer install
+copy .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
+
+Para verificar el proyecto:
+
+```bash
+php artisan test
+php artisan route:list
+```
+
+Credenciales de demostracion sembradas: `admin@cibereskola.eus` / `admin123`. Cambiarlas en cualquier entorno real.
+
+---
+
+## Laravel
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>

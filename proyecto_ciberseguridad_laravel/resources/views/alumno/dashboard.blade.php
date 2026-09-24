@@ -91,4 +91,33 @@
         @endforeach
     </div>
 @endif
+
+<div class="section-title" style="margin-top:3rem;">📋 Mis matrículas</div>
+<div class="table-wrapper">
+    <table>
+        <thead><tr><th>Curso</th><th>Estado</th><th>Fecha</th><th>Acción</th></tr></thead>
+        <tbody>
+            @forelse($matriculas as $matricula)
+                <tr>
+                    <td>{{ $matricula->curso->nombre ?? 'Curso eliminado' }}</td>
+                    <td><span class="badge {{ $matricula->estado === 'cancelada' ? 'badge-red' : 'badge-green' }}">{{ ucfirst($matricula->estado) }}</span></td>
+                    <td>{{ $matricula->fecha_matricula }}</td>
+                    <td>
+                        @if($matricula->estado !== 'cancelada')
+                            <form action="{{ route('alumno.baja-matricula', $matricula->id) }}" method="POST" onsubmit="return confirm('¿Cancelar esta matrícula?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-danger" style="padding:0.3rem 0.75rem; border:0; border-radius:6px; cursor:pointer; font-family:inherit;">Cancelar</button>
+                            </form>
+                        @else
+                            <span style="color:var(--muted);">Sin acciones</span>
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="4" style="text-align:center; color:var(--muted); padding:2rem;">Todavía no tienes matrículas.</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 @endsection

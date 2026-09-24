@@ -45,6 +45,7 @@ class Matricula extends Model
     {
         return self::where('usuario_id', $usuarioId)
                    ->where('curso_id', $cursoId)
+                   ->where('estado', '!=', 'cancelada')
                    ->exists();
     }
 

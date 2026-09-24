@@ -58,6 +58,32 @@ class AdminController extends Controller
         return back()->with('success', "Curso '{$request->nombre}' creado correctamente.");
     }
 
+    /** Actualiza los datos editables de un curso. */
+    public function actualizarCurso(Request $request, int $id)
+    {
+        $datos = $request->validate([
+            'nombre'         => 'required|string|max:150',
+            'descripcion'    => 'nullable|string',
+            'categoria'      => 'nullable|string|max:100',
+            'duracion_horas' => 'nullable|integer|min:1',
+            'nivel'          => 'required|in:basico,intermedio,avanzado',
+        ]);
+
+        $curso = Curso::porId($id);
+        $curso->actualizar($datos);
+
+        return back()->with('success', "Curso '{$curso->nombre}' actualizado correctamente.");
+    }
+
+    /** Activa o desactiva un curso sin perder su historial de matrículas. */
+    public function cambiarEstadoCurso(int $id)
+    {
+        $curso = Curso::porId($id);
+        $curso->activo ? $curso->desactivar() : $curso->activar();
+
+        return back()->with('success', 'Estado del curso actualizado.');
+    }
+
     // Eliminar curso
     public function eliminarCurso(int $id)
     {

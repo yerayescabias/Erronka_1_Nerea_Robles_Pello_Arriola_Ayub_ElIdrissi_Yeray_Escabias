@@ -38,6 +38,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('administrazioa')->name('admin
 
     // Gestión de cursos
     Route::post('/crear-curso',             [AdminController::class, 'crearCurso'])->name('crear-curso');
+    Route::put('/curso/{id}',               [AdminController::class, 'actualizarCurso'])->name('actualizar-curso');
+    Route::patch('/curso/{id}/estado',      [AdminController::class, 'cambiarEstadoCurso'])->name('cambiar-estado-curso');
     Route::delete('/curso/{id}',            [AdminController::class, 'eliminarCurso'])->name('eliminar-curso');
 });
 
@@ -47,4 +49,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('administrazioa')->name('admin
 Route::middleware(['auth', 'role:alumno'])->prefix('ikaslea')->name('alumno.')->group(function () {
     Route::get('/dashboard',               [AlumnoController::class, 'dashboard'])->name('dashboard');
     Route::post('/matrikulatu/{cursoId}',  [AlumnoController::class, 'matrikulatu'])->name('matrikulatu');
+    Route::delete('/matrikula/{id}',       [AlumnoController::class, 'bajaMatricula'])->name('baja-matricula');
 });
