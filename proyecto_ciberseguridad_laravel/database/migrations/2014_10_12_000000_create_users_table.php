@@ -10,12 +10,13 @@ class CreateUsersTable extends Migration
     {
         Schema::create('Usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100);
+            $table->string('izena', 100);
+            $table->string('abizena', 100)->nullable();
             $table->string('email', 150)->unique();
-            $table->string('password_hash', 255)->nullable();
-            $table->enum('rol', ['admin', 'alumno'])->default('alumno');
-            $table->boolean('pre_registrado')->default(true); // El admin da de alta primero
-            $table->timestamp('creado_en')->useCurrent();
+            $table->string('pasahitza', 255)->nullable();
+            $table->date('jaiotze_data')->nullable();
+            $table->foreignId('rol')->default(2)->constrained('Rol');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

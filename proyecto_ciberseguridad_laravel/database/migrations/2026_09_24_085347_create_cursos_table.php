@@ -10,13 +10,10 @@ return new class extends Migration
     {
         Schema::create('cursos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 150);
-            $table->text('descripcion')->nullable();
-            $table->string('categoria', 100)->nullable();
-            $table->integer('duracion_horas')->nullable();
-            $table->enum('nivel', ['basico', 'intermedio', 'avanzado'])->default('basico');
-            $table->boolean('activo')->default(true);
-            $table->timestamps();
+            $table->string('titulo', 150);
+            $table->date('hasiera_data')->nullable();
+            $table->date('bukaera_data')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

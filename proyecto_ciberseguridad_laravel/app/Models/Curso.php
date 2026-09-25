@@ -10,8 +10,14 @@ class Curso extends Model
     use HasFactory;
 
     protected $table = 'cursos';
+    public $timestamps = false;
+    public const CREATED_AT = 'created_at';
+    public const UPDATED_AT = null;
 
     protected $fillable = [
+        'titulo',
+        'hasiera_data',
+        'bukaera_data',
         'nombre',
         'descripcion',
         'categoria',
@@ -20,17 +26,24 @@ class Curso extends Model
         'activo',
     ];
 
+    public function getNombreAttribute(): string { return $this->titulo; }
+    public function getActivoAttribute(): bool { return true; }
+    public function setNombreAttribute($value): void { $this->attributes['titulo'] = $value; }
+    public function setDescripcionAttribute($value): void {}
+    public function setCategoriaAttribute($value): void {}
+    public function setDuracionHorasAttribute($value): void {}
+    public function setNivelAttribute($value): void {}
+    public function setActivoAttribute($value): void {}
+
     // ── Relaciones ──────────────────────────────────────────
     public function matriculas()
     {
-        return $this->hasMany(Matricula::class, 'curso_id');
+        return $this->hasMany(Matricula::class, 'id_curso');
     }
 
     public function alumnos()
     {
-        return $this->belongsToMany(User::class, 'matriculas', 'curso_id', 'usuario_id')
-                    ->withPivot('estado', 'fecha_matricula')
-                    ->withTimestamps();
+        return $this->belongsToMany(User::class, 'UsuariosCursos', 'id_curso', 'id_usuario')->withTimestamps();
     }
 
     // ── Métodos de acceso a BD ───────────────────────────────
@@ -38,7 +51,7 @@ class Curso extends Model
     /** Devuelve todos los cursos activos */
     public static function activos()
     {
-        return self::where('activo', true)->get();
+        return self::all();
     }
 
     /** Devuelve todos los cursos */
@@ -68,12 +81,16 @@ class Curso extends Model
     /** Crea un nuevo curso */
     public static function crear(array $datos)
     {
+        if (isset($datos['nombre'])) { $datos['titulo'] = $datos['nombre']; unset($datos['nombre']); }
+        $datos = array_intersect_key($datos, array_flip(['titulo', 'hasiera_data', 'bukaera_data']));
         return self::create($datos);
     }
 
     /** Actualiza los datos del curso */
     public function actualizar(array $datos)
     {
+        if (isset($datos['nombre'])) { $datos['titulo'] = $datos['nombre']; unset($datos['nombre']); }
+        $datos = array_intersect_key($datos, array_flip(['titulo', 'hasiera_data', 'bukaera_data']));
         $this->update($datos);
         return $this;
     }
@@ -81,15 +98,13 @@ class Curso extends Model
     /** Desactiva el curso (baja lógica) */
     public function desactivar()
     {
-        $this->activo = false;
-        $this->save();
+        return $this;
     }
 
     /** Activa el curso */
     public function activar()
     {
-        $this->activo = true;
-        $this->save();
+        return $this;
     }
 
     /** Elimina el curso */

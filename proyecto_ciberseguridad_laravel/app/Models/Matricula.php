@@ -9,23 +9,34 @@ class Matricula extends Model
 {
     use HasFactory;
 
-    protected $table = 'matriculas';
+    protected $table = 'UsuariosCursos';
+    public $incrementing = false;
+    public const UPDATED_AT = null;
 
     protected $fillable = [
-        'usuario_id',
-        'curso_id',
-        'estado',
+        'id_usuario',
+        'id_curso',
     ];
+
+    public function getEstadoAttribute(): string
+    {
+        return 'activa';
+    }
+
+    public function getFechaMatriculaAttribute()
+    {
+        return $this->created_at;
+    }
 
     // ── Relaciones ──────────────────────────────────────────
     public function usuario()
     {
-        return $this->belongsTo(User::class, 'usuario_id');
+        return $this->belongsTo(User::class, 'id_usuario');
     }
 
     public function curso()
     {
-        return $this->belongsTo(Curso::class, 'curso_id');
+        return $this->belongsTo(Curso::class, 'id_curso');
     }
 
     // ── Métodos de acceso a BD ───────────────────────────────
@@ -34,45 +45,39 @@ class Matricula extends Model
     public static function matricular(int $usuarioId, int $cursoId): self
     {
         return self::create([
-            'usuario_id' => $usuarioId,
-            'curso_id'   => $cursoId,
-            'estado'     => 'activa',
+            'id_usuario' => $usuarioId,
+            'id_curso'   => $cursoId,
         ]);
     }
 
     /** Comprueba si ya existe la matrícula */
     public static function existe(int $usuarioId, int $cursoId): bool
     {
-        return self::where('usuario_id', $usuarioId)
-                   ->where('curso_id', $cursoId)
-                   ->where('estado', '!=', 'cancelada')
-                   ->exists();
+        return self::where('id_usuario', $usuarioId)->where('id_curso', $cursoId)->exists();
     }
 
     /** Obtiene las matrículas de un usuario */
     public static function porUsuario(int $usuarioId)
     {
-        return self::where('usuario_id', $usuarioId)->with('curso')->get();
+        return self::where('id_usuario', $usuarioId)->with('curso')->get();
     }
 
     /** Obtiene los alumnos de un curso */
     public static function porCurso(int $cursoId)
     {
-        return self::where('curso_id', $cursoId)->with('usuario')->get();
+        return self::where('id_curso', $cursoId)->with('usuario')->get();
     }
 
     /** Cancela la matrícula */
     public function cancelar()
     {
-        $this->estado = 'cancelada';
-        $this->save();
+        $this->delete();
     }
 
     /** Marca como completada */
     public function completar()
     {
-        $this->estado = 'completada';
-        $this->save();
+        return $this;
     }
 
     /** Elimina la matrícula */
