@@ -314,7 +314,18 @@
                 'Entrar': 'Entrar',
                 '¿No tienes cuenta?': '¿No tienes cuenta?',
                 'Regístrate aquí': 'Regístrate aquí',
-                'Activar cuenta': 'Activar cuenta'
+                'Activar cuenta': 'Activar cuenta',
+                'Alumno': 'Alumno', 'Matriculado': 'Matriculado', 'Básico': 'Básico',
+                'Intermedio': 'Intermedio', 'Avanzado': 'Avanzado', 'Matricularse': 'Matricularse',
+                'Ya estás inscrito en este curso': 'Ya estás inscrito en este curso',
+                'Mis matrículas': 'Mis matrículas', 'Curso': 'Curso', 'Estado': 'Estado',
+                'Fecha': 'Fecha', 'Acción': 'Acción', 'Cancelar': 'Cancelar',
+                'Sin acciones': 'Sin acciones', 'Todavía no tienes matrículas.': 'Todavía no tienes matrículas.',
+                'No hay cursos disponibles en este momento.': 'No hay cursos disponibles en este momento.',
+                'Panel de Administración': 'Panel de Administración', 'Bienvenido,': 'Bienvenido,',
+                'Alumnos': 'Alumnos', 'Cursos': 'Cursos', 'Matrículas': 'Matrículas',
+                'Cursos activos': 'Cursos activos', 'Gestión de alumnos': 'Gestión de alumnos',
+                'Gestión de cursos': 'Gestión de cursos', 'Matrículas recientes': 'Matrículas recientes'
             },
             eu: {
                 'Iniciar sesión': 'Saioa hasi',
@@ -334,17 +345,33 @@
                 'Entrar': 'Sartu',
                 '¿No tienes cuenta?': 'Ez duzu konturik?',
                 'Regístrate aquí': 'Erregistratu hemen',
-                'Activar cuenta': 'Aktibatu kontua'
+                'Activar cuenta': 'Aktibatu kontua',
+                'Alumno': 'Ikaslea', 'Matriculado': 'Matrikulatuta', 'Básico': 'Oinarrizkoa',
+                'Intermedio': 'Ertaina', 'Avanzado': 'Aurreratua', 'Matricularse': 'Matrikulatu',
+                'Ya estás inscrito en este curso': 'Ikastaro honetan izena emanda zaude',
+                'Mis matrículas': 'Nire matrikulak', 'Curso': 'Ikastaroa', 'Estado': 'Egoera',
+                'Fecha': 'Data', 'Acción': 'Ekintza', 'Cancelar': 'Utzi',
+                'Sin acciones': 'Ekintzarik gabe', 'Todavía no tienes matrículas.': 'Oraindik ez duzu matrikularik.',
+                'No hay cursos disponibles en este momento.': 'Une honetan ez dago ikastarorik eskuragarri.',
+                'Panel de Administración': 'Administrazio panela', 'Bienvenido,': 'Ongi etorri,',
+                'Alumnos': 'Ikasleak', 'Cursos': 'Ikastaroak', 'Matrículas': 'Matrikulak',
+                'Cursos activos': 'Ikastaro aktiboak', 'Gestión de alumnos': 'Ikasleen kudeaketa',
+                'Gestión de cursos': 'Ikastaroen kudeaketa', 'Matrículas recientes': 'Azken matrikulak'
             }
         };
         const translatePage = (language) => {
             document.documentElement.lang = language === 'eu' ? 'eu' : 'es';
-            document.querySelectorAll('body *').forEach((element) => {
-                if (element.children.length === 0 && translations[language][element.textContent.trim()]) {
-                    element.textContent = translations[language][element.textContent.trim()];
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+            while (walker.nextNode()) {
+                const node = walker.currentNode;
+                const text = node.nodeValue.trim();
+                if (translations[language][text]) {
+                    node.nodeValue = node.nodeValue.replace(text, translations[language][text]);
                 }
-                if (element.placeholder && translations[language][element.placeholder]) {
-                    element.placeholder = translations[language][element.placeholder];
+            }
+            document.querySelectorAll('input, textarea').forEach((field) => {
+                if (translations[language][field.placeholder]) {
+                    field.placeholder = translations[language][field.placeholder];
                 }
             });
             languageToggle.textContent = language === 'eu' ? 'EU / ES' : 'ES / EU';

@@ -66,15 +66,15 @@ class ApplicationFlowTest extends TestCase
             ->assertSessionHas('success');
 
         $matricula = Matricula::firstOrFail();
-        $this->assertSame('activa', $matricula->estado);
+        $this->assertSame((int) $curso->id, (int) $matricula->id_curso);
 
         $this->actingAs($alumno)
-            ->delete(route('alumno.baja-matricula', $matricula->id))
+            ->delete(route('alumno.baja-matricula', $matricula->id_curso))
             ->assertSessionHas('success');
 
-        $this->assertDatabaseHas('matriculas', [
-            'id' => $matricula->id,
-            'estado' => 'cancelada',
+        $this->assertDatabaseMissing('UsuariosCursos', [
+            'id_usuario' => $alumno->id,
+            'id_curso' => $curso->id,
         ]);
     }
 }

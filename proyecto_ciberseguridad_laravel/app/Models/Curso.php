@@ -43,7 +43,8 @@ class Curso extends Model
 
     public function alumnos()
     {
-        return $this->belongsToMany(User::class, 'UsuariosCursos', 'id_curso', 'id_usuario')->withTimestamps();
+        return $this->belongsToMany(User::class, 'UsuariosCursos', 'id_curso', 'id_usuario')
+                ->withPivot('created_at');
     }
 
     // ── Métodos de acceso a BD ───────────────────────────────

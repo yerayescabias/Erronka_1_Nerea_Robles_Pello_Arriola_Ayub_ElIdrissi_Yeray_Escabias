@@ -59,7 +59,8 @@ class User extends Authenticatable
 
     public function cursos()
     {
-        return $this->belongsToMany(Curso::class, 'UsuariosCursos', 'id_usuario', 'id_curso')->withTimestamps();
+        return $this->belongsToMany(Curso::class, 'UsuariosCursos', 'id_usuario', 'id_curso')
+                ->withPivot('created_at');
     }
 
     // ── Métodos de acceso a BD ───────────────────────────────

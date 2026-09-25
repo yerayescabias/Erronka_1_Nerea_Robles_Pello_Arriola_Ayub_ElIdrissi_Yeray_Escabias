@@ -71,7 +71,9 @@ class Matricula extends Model
     /** Cancela la matrícula */
     public function cancelar()
     {
-        $this->delete();
+        return self::where('id_usuario', $this->id_usuario)
+            ->where('id_curso', $this->id_curso)
+            ->delete();
     }
 
     /** Marca como completada */
@@ -83,6 +85,6 @@ class Matricula extends Model
     /** Elimina la matrícula */
     public function eliminar()
     {
-        $this->delete();
+        return $this->cancelar();
     }
 }

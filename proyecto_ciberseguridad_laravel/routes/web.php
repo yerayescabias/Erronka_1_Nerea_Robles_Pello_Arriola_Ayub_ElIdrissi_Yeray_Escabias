@@ -49,5 +49,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('administrazioa')->name('admin
 Route::middleware(['auth', 'role:alumno'])->prefix('ikaslea')->name('alumno.')->group(function () {
     Route::get('/dashboard',               [AlumnoController::class, 'dashboard'])->name('dashboard');
     Route::post('/matrikulatu/{cursoId}',  [AlumnoController::class, 'matrikulatu'])->name('matrikulatu');
-    Route::delete('/matrikula/{id}',       [AlumnoController::class, 'bajaMatricula'])->name('baja-matricula');
+    Route::delete('/matrikula/{cursoId}',  [AlumnoController::class, 'bajaMatricula'])->name('baja-matricula');
 });

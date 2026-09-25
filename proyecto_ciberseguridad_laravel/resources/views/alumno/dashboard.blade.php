@@ -104,7 +104,7 @@
                     <td>{{ $matricula->fecha_matricula }}</td>
                     <td>
                         @if($matricula->estado !== 'cancelada')
-                            <form action="{{ route('alumno.baja-matricula', $matricula->id) }}" method="POST" onsubmit="return confirm('¿Cancelar esta matrícula?')">
+                            <form action="{{ route('alumno.baja-matricula', $matricula->id_curso) }}" method="POST" onsubmit="return confirm('¿Cancelar esta matrícula?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-danger" style="padding:0.3rem 0.75rem; border:0; border-radius:6px; cursor:pointer; font-family:inherit;">Cancelar</button>

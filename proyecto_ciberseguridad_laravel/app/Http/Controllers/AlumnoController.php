@@ -16,7 +16,7 @@ class AlumnoController extends Controller
 
         // Marcar en cuáles ya está matriculado
         $matriculas = Matricula::porUsuario($user->id);
-        $matriculados = $matriculas->where('estado', '!=', 'cancelada')->pluck('curso_id')->toArray();
+        $matriculados = $matriculas->pluck('id_curso')->toArray();
 
         return view('alumno.dashboard', compact('user', 'cursos', 'matriculados', 'matriculas'));
     }
@@ -41,10 +41,10 @@ class AlumnoController extends Controller
     }
 
     /** Permite al alumno cancelar únicamente una matrícula propia. */
-    public function bajaMatricula(int $id)
+    public function bajaMatricula(int $cursoId)
     {
-        $matricula = Matricula::whereKey($id)
-            ->where('usuario_id', Auth::id())
+        $matricula = Matricula::where('id_curso', $cursoId)
+            ->where('id_usuario', Auth::id())
             ->firstOrFail();
 
         $matricula->cancelar();
