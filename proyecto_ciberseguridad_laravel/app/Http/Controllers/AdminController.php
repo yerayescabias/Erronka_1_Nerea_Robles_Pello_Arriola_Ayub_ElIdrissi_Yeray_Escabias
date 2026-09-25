@@ -37,6 +37,8 @@ class AdminController extends Controller
     // Eliminar usuario
     public function eliminarUsuario(int $id)
     {
+        abort_if(Auth::id() === $id, 403, 'No puedes eliminar tu propia cuenta de administrador.');
+
         $user = User::findOrFail($id);
         $user->eliminar();
         return back()->with('success', 'Usuario eliminado.');
