@@ -96,3 +96,141 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Pendiente para dejar la web lista
+
+Esta lista recoge las tareas que aun deben completarse antes de considerar CiberEskola preparada para produccion en la infraestructura del proyecto.
+
+### 1. Infraestructura y red
+
+- [ ] Crear o identificar en Proxmox la maquina virtual o contenedor que alojara la web.
+- [ ] Asignarle la IP `192.168.10.10` dentro de la DMZ `192.168.10.0/24`.
+- [ ] Configurar como gateway de la DMZ `192.168.10.254`.
+- [ ] Confirmar la conectividad desde el servidor web hacia MySQL `192.168.30.10`.
+- [ ] Confirmar que el servidor web no puede acceder a redes internas que no necesite.
+- [ ] Documentar el ID, nombre, sistema operativo y recursos de la VM en Proxmox `192.168.74.10`.
+- [ ] Reservar una IP fija y configurar DNS para el dominio de la aplicacion.
+
+### 2. Servidor web
+
+- [ ] Instalar y actualizar PHP, extensiones PHP necesarias, Composer y el servidor web.
+- [ ] Sustituir `php artisan serve`, que solo sirve para desarrollo local, por Apache o Nginx.
+- [ ] Configurar el document root exclusivamente en `proyecto_ciberseguridad_laravel/public`.
+- [ ] Impedir el acceso web a `.env`, `vendor`, `storage` y archivos internos.
+- [ ] Configurar HTTPS con un certificado valido.
+- [ ] Redirigir HTTP a HTTPS.
+- [ ] Configurar limites de peticiones, subida de archivos y tiempos de espera.
+- [ ] Configurar los logs del servidor web y su rotacion.
+
+### 3. Configuracion de Laravel
+
+- [ ] Crear un `.env` exclusivo para produccion y no reutilizar las credenciales locales.
+- [ ] Configurar como minimo:
+
+	```env
+	APP_ENV=production
+	APP_DEBUG=false
+	APP_URL=https://dominio-de-la-web
+	DB_HOST=192.168.30.10
+	DB_PORT=3306
+	```
+
+- [ ] Generar una `APP_KEY` propia y mantenerla fuera del repositorio.
+- [ ] Ejecutar `composer install --no-dev --optimize-autoloader`.
+- [ ] Configurar `storage` y `bootstrap/cache` con permisos minimos.
+- [ ] Ejecutar `php artisan migrate --force` en produccion.
+- [ ] No ejecutar `php artisan migrate:fresh` en produccion.
+- [ ] Ejecutar `php artisan config:cache`, `php artisan route:cache` y `php artisan view:cache` despues de configurar el entorno.
+- [ ] Configurar la cache, sesiones, correo y colas segun los servicios disponibles.
+
+### 4. Base de datos
+
+- [ ] Crear una base de datos de produccion en `192.168.30.10`.
+- [ ] Crear un usuario MySQL exclusivo para Laravel, sin utilizar `root`.
+- [ ] Permitir el puerto `3306` unicamente desde `192.168.10.10`.
+- [ ] Verificar las tablas del esquema final: `Rol`, `Usuarios`, `cursos` y `UsuariosCursos`.
+- [ ] Comprobar las claves externas y la restriccion unica de `UsuariosCursos`.
+- [ ] No cargar usuarios, contrasenas ni cursos de demostracion en produccion sin revisarlos.
+- [ ] Preparar migraciones incrementales para futuros cambios del esquema.
+- [ ] Crear copias de seguridad cifradas y probar su restauracion.
+
+### 5. Firewall y DMZ
+
+- [ ] Permitir desde Internet hacia la web unicamente `443/tcp`.
+- [ ] Permitir `80/tcp` solo para redireccion HTTPS o validacion del certificado.
+- [ ] Permitir desde `192.168.10.10` hacia `192.168.30.10` unicamente `3306/tcp`.
+- [ ] Bloquear desde Internet el acceso a MySQL, Active Directory y las VLAN internas.
+- [ ] Permitir SSH solo desde una VLAN de administracion autorizada.
+- [ ] Aplicar una politica de denegacion por defecto entre la DMZ y las redes internas.
+- [ ] Registrar y revisar los eventos del firewall pfSense.
+
+### 6. Seguridad de la aplicacion
+
+- [ ] Revisar todas las reglas de validacion de formularios.
+- [ ] Aplicar limitacion de intentos al login y proteccion frente a fuerza bruta.
+- [ ] Mantener CSRF activo en todas las rutas web.
+- [ ] Configurar cookies `Secure`, `HttpOnly` y `SameSite`.
+- [ ] Anadir cabeceras HSTS, CSP, X-Frame-Options, X-Content-Type-Options y Referrer-Policy.
+- [ ] Revisar que ningun log muestre contrasenas, tokens o datos sensibles.
+- [ ] Ejecutar una auditoria de dependencias con Composer.
+- [ ] Mantener PHP, Laravel y paquetes actualizados.
+- [ ] Revisar si se usara autenticacion local o integracion con Active Directory mediante LDAPS.
+
+### 7. Funcionalidad y datos
+
+- [ ] Probar login, logout y registro con usuarios reales de prueba.
+- [ ] Probar la separacion de permisos entre administrador y alumno.
+- [ ] Probar alta, eliminacion y activacion de alumnos.
+- [ ] Probar creacion, edicion y eliminacion de cursos.
+- [ ] Probar matriculacion y cancelacion usando `UsuariosCursos`.
+- [ ] Revisar los mensajes de error y confirmacion.
+- [ ] Completar la traduccion de todas las vistas y mensajes entre castellano y euskera.
+- [ ] Revisar que el cambio de idioma y de tema funcione en todas las paginas.
+- [ ] Revisar la vista movil y los formularios en distintos navegadores.
+
+### 8. Pruebas y entrega
+
+- [ ] Mantener todas las pruebas automatizadas pasando con `php artisan test`.
+- [ ] Anadir pruebas para registro, validacion, permisos, idiomas y cambio de tema.
+- [ ] Probar la aplicacion desde la DMZ y desde cada VLAN autorizada.
+- [ ] Comprobar que los puertos no autorizados no son accesibles desde Internet.
+- [ ] Realizar una prueba de restauracion de la base de datos.
+- [ ] Revisar los logs durante una prueba completa de usuario.
+- [ ] Preparar un procedimiento de despliegue y rollback.
+- [ ] Documentar las credenciales iniciales y cambiarlas antes de entregar el sistema.
+- [ ] Documentar el nombre e ID de la VM de Proxmox que aloja el servidor web.

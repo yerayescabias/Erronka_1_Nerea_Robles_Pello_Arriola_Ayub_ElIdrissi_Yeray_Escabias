@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Ikastetxea - Centro Educativo')</title>
     <meta name="description" content="Centro educativo de ciberseguridad">
-    <link rel="icon" type="image/png" href="{{ asset('logo-cropped.png') }}">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('logo-cropped.png') }}">
+    <link id="favicon-light" rel="icon" type="image/png" href="{{ asset('logo-cropped.png') }}">
+    <link id="favicon-dark" rel="shortcut icon" type="image/png" href="{{ asset('logo-dark-transparent.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -82,7 +82,10 @@
         .nav-brand .logo-dark { display: none; }
         :root:not([data-theme="light"]) .nav-brand { padding: 5px 0; }
         :root:not([data-theme="light"]) .nav-brand .logo-light { display: none; }
-        :root:not([data-theme="light"]) .nav-brand .logo-dark { display: block; filter: drop-shadow(0 0 10px rgba(0,211,154,0.2)); }
+        :root:not([data-theme="light"]) .nav-brand .logo-dark { display: block; width: 235px; object-fit: cover; filter: drop-shadow(0 0 10px rgba(0,211,154,0.2)); }
+        .theme-logo-dark { display: none; }
+        :root:not([data-theme="light"]) .theme-logo-light { display: none; }
+        :root:not([data-theme="light"]) .theme-logo-dark { display: block; }
         .nav-links { display: flex; align-items: center; gap: 1rem; }
         .nav-links a, .nav-links button {
             padding: 0.45rem 1rem;
@@ -144,6 +147,13 @@
             font-size: 0.9rem;
             font-weight: 500;
         }
+        .toast-container { position: fixed; top: 94px; right: 1.5rem; z-index: 200; width: min(360px, calc(100vw - 2rem)); display: grid; gap: 0.75rem; }
+        .toast { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem 1rem 1rem 1.1rem; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: var(--radius); background: var(--surface); color: var(--text); box-shadow: 0 16px 36px rgba(0,0,0,0.25); animation: toast-in 0.35s ease both; }
+        .toast-success { border-left-color: var(--green); }
+        .toast-warning { border-left-color: var(--yellow); }
+        .toast-error { border-left-color: var(--red); }
+        .toast-close { margin-left: auto; border: 0; background: transparent; color: var(--muted); font-size: 1.15rem; cursor: pointer; line-height: 1; }
+        .toast.is-leaving { animation: toast-out 0.25s ease forwards; }
         .alert-success { background: rgba(16,185,129,0.15); border: 1px solid var(--green); color: var(--green); }
         .alert-warning { background: rgba(245,158,11,0.15); border: 1px solid var(--yellow); color: var(--yellow); }
         .alert-error   { background: rgba(239,68,68,0.15);  border: 1px solid var(--red);    color: var(--red); }
@@ -176,6 +186,10 @@
         .form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,211,154,0.16); }
         .form-control.is-invalid { border-color: var(--red); }
         .invalid-feedback { color: var(--red); font-size: 0.8rem; margin-top: 0.25rem; }
+        .error-summary { display: grid; gap: 0.25rem; border-left-width: 4px; }
+        form.is-loading { opacity: 0.78; pointer-events: none; }
+        form.is-loading button[type="submit"] { position: relative; color: transparent !important; }
+        form.is-loading button[type="submit"]::after { content: ''; position: absolute; width: 1rem; height: 1rem; top: 50%; left: 50%; margin: -0.5rem; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; color: #fff; }
 
         /* ── BADGE ── */
         .badge {
@@ -204,6 +218,21 @@
 
         /* ── SECTION TITLE ── */
         .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .card, .curso-card, .stat-card, .table-wrapper, .auth-box { animation: rise-in 0.5s ease both; }
+        .grid > :nth-child(2) { animation-delay: 0.06s; }
+        .grid > :nth-child(3) { animation-delay: 0.12s; }
+        .grid > :nth-child(4) { animation-delay: 0.18s; }
+        tbody tr { animation: row-in 0.35s ease both; }
+        tbody tr:nth-child(2) { animation-delay: 0.04s; }
+        tbody tr:nth-child(3) { animation-delay: 0.08s; }
+        .empty-state, tbody td[colspan] { color: var(--muted); }
+        .empty-state { border: 1px dashed var(--border); border-radius: var(--radius); background: var(--surface); }
+        @keyframes rise-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes row-in { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes toast-in { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes toast-out { to { opacity: 0; transform: translateX(18px); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
 
         /* ── FOOTER ── */
         footer {
@@ -225,15 +254,27 @@
         }
         :root[data-theme="light"] nav { background: rgba(255,255,255,0.9); }
         :root[data-theme="light"] body { background-image: radial-gradient(circle at 8% 0%, rgba(0,211,154,0.16), transparent 28rem), radial-gradient(circle at 95% 45%, rgba(6,40,90,0.1), transparent 24rem); }
+        .page-loader { position: fixed; inset: 0; z-index: 999; display: grid; place-items: center; background: var(--bg); transition: opacity 0.35s, visibility 0.35s; }
+        .page-loader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .page-loader img { width: min(250px, 58vw); height: auto; animation: loader-pulse 1.2s ease-in-out infinite; }
+        .footer-brand { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .footer-brand img { width: 150px; height: 38px; object-fit: contain; }
+        .admin-brand { width: 170px; height: 44px; object-fit: contain; vertical-align: middle; margin-right: 0.65rem; }
+        .admin-brand.theme-logo-dark { display: inline-block; object-fit: cover; }
+        @keyframes loader-pulse { 50% { transform: scale(1.04); opacity: 0.72; } }
+        @media (max-width: 640px) { .nav-brand img { width: 185px; height: 54px; } .footer-brand img { width: 130px; height: 34px; } .admin-brand { width: 145px; height: 38px; } }
     </style>
     @yield('styles')
 </head>
 <body>
+    <div class="page-loader" id="page-loader" aria-label="Cargando CiberEskola">
+        <img src="{{ asset('logo-dark-transparent.png') }}" alt="CiberEskola">
+    </div>
     <nav>
         <div class="nav-inner">
             <a class="nav-brand" href="{{ route('inicio') }}" aria-label="CiberEskola">
                 <img class="logo-light" src="{{ asset('logo-cropped.png') }}" alt="CiberEskola">
-                <img class="logo-dark" src="{{ asset('logo-dark.png') }}" alt="CiberEskola">
+                <img class="logo-dark" src="{{ asset('logo-dark-transparent.png') }}" alt="CiberEskola">
             </a>
             <div class="nav-links">
                 @auth
@@ -263,32 +304,45 @@
     </nav>
 
     <main>
-        @if(session('success'))
-            <div class="alert alert-success">✅ {{ session('success') }}</div>
-        @endif
-        @if(session('warning'))
-            <div class="alert alert-warning">⚠️ {{ session('warning') }}</div>
-        @endif
-        @if(session('error'))
-            <div class="alert alert-error">❌ {{ session('error') }}</div>
+        @if(session('success') || session('warning') || session('error'))
+            <div class="toast-container" aria-live="polite">
+                @foreach(['success' => '✅', 'warning' => '⚠️', 'error' => '❌'] as $type => $icon)
+                    @if(session($type))
+                        <div class="toast toast-{{ $type }}" role="status">
+                            <span>{{ $icon }}</span><span>{{ session($type) }}</span>
+                            <button class="toast-close" type="button" aria-label="Cerrar">&times;</button>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
         @endif
 
         @yield('content')
     </main>
 
     <footer>
-        <p>🛡️ CiberEskola — Centro de Formación en Ciberseguridad &copy; {{ date('Y') }}</p>
+        <div class="footer-brand">
+            <img class="theme-logo-light" src="{{ asset('logo-cropped.png') }}" alt="CiberEskola">
+            <img class="theme-logo-dark" src="{{ asset('logo-dark-transparent.png') }}" alt="CiberEskola">
+        </div>
+        <p>Centro de Formación en Ciberseguridad &copy; {{ date('Y') }}</p>
     </footer>
     <script>
         const themeToggle = document.getElementById('theme-toggle');
         const languageToggle = document.getElementById('language-toggle');
+        const pageLoader = document.getElementById('page-loader');
+        const faviconLight = document.getElementById('favicon-light');
+        const faviconDark = document.getElementById('favicon-dark');
         const updateThemeToggle = () => {
             const isLight = document.documentElement.dataset.theme === 'light';
             themeToggle.textContent = isLight ? '☾' : '☀';
             themeToggle.setAttribute('aria-label', isLight ? 'Cambiar a tema negro' : 'Cambiar a tema claro');
             themeToggle.title = isLight ? 'Cambiar a tema negro' : 'Cambiar a tema claro';
+            faviconLight.disabled = !isLight;
+            faviconDark.disabled = isLight;
         };
         updateThemeToggle();
+        requestAnimationFrame(() => pageLoader.classList.add('is-hidden'));
         themeToggle.addEventListener('click', () => {
             const nextTheme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
             document.documentElement.dataset.theme = nextTheme;
@@ -319,6 +373,8 @@
                 'Intermedio': 'Intermedio', 'Avanzado': 'Avanzado', 'Matricularse': 'Matricularse',
                 'Ya estás inscrito en este curso': 'Ya estás inscrito en este curso',
                 'Mis matrículas': 'Mis matrículas', 'Curso': 'Curso', 'Estado': 'Estado',
+                '📋 Mis matrículas': '📋 Mis matrículas', 'Activa': 'Activa', 'Activo': 'Activo',
+                '👋 Hola,': '👋 Hola,', 'Centro de Formación en Ciberseguridad © 2026': 'Centro de Formación en Ciberseguridad © 2026',
                 'Fecha': 'Fecha', 'Acción': 'Acción', 'Cancelar': 'Cancelar',
                 'Sin acciones': 'Sin acciones', 'Todavía no tienes matrículas.': 'Todavía no tienes matrículas.',
                 'No hay cursos disponibles en este momento.': 'No hay cursos disponibles en este momento.',
@@ -350,6 +406,8 @@
                 'Intermedio': 'Ertaina', 'Avanzado': 'Aurreratua', 'Matricularse': 'Matrikulatu',
                 'Ya estás inscrito en este curso': 'Ikastaro honetan izena emanda zaude',
                 'Mis matrículas': 'Nire matrikulak', 'Curso': 'Ikastaroa', 'Estado': 'Egoera',
+                '📋 Mis matrículas': '📋 Nire matrikulak', 'Activa': 'Aktiboa', 'Activo': 'Aktiboa',
+                '👋 Hola,': '👋 Kaixo,', 'Centro de Formación en Ciberseguridad © 2026': 'Zibersegurtasuneko prestakuntza-zentroa © 2026',
                 'Fecha': 'Data', 'Acción': 'Ekintza', 'Cancelar': 'Utzi',
                 'Sin acciones': 'Ekintzarik gabe', 'Todavía no tienes matrículas.': 'Oraindik ez duzu matrikularik.',
                 'No hay cursos disponibles en este momento.': 'Une honetan ez dago ikastarorik eskuragarri.',
@@ -367,6 +425,11 @@
                 const text = node.nodeValue.trim();
                 if (translations[language][text]) {
                     node.nodeValue = node.nodeValue.replace(text, translations[language][text]);
+                } else {
+                    const prefix = Object.keys(translations[language]).find((key) => text.startsWith(key) && key.endsWith(','));
+                    if (prefix) {
+                        node.nodeValue = translations[language][prefix] + text.slice(prefix.length);
+                    }
                 }
             }
             document.querySelectorAll('input, textarea').forEach((field) => {
@@ -382,6 +445,14 @@
             const nextLanguage = (localStorage.getItem('ciberskola-language') || 'es') === 'es' ? 'eu' : 'es';
             localStorage.setItem('ciberskola-language', nextLanguage);
             window.location.reload();
+        });
+        document.querySelectorAll('.toast').forEach((toast) => {
+            const close = () => { toast.classList.add('is-leaving'); setTimeout(() => toast.remove(), 250); };
+            toast.querySelector('.toast-close').addEventListener('click', close);
+            setTimeout(close, 5500);
+        });
+        document.querySelectorAll('form').forEach((form) => {
+            form.addEventListener('submit', () => form.classList.add('is-loading'));
         });
     </script>
 </body>

@@ -41,15 +41,22 @@
         display: none;
     }
     .collapsible-form.open { display: block; }
+    .collapsible-form.open { animation: rise-in 0.3s ease both; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     @media(max-width:600px) { .form-row { grid-template-columns: 1fr; } }
     .table-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .table-toolbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:0.8rem; }
+    .table-search { max-width:360px; position:relative; flex:1; }
+    .table-search input { padding-left:2.5rem; }
+    .table-search::before { content:'⌕'; position:absolute; left:0.9rem; top:50%; transform:translateY(-50%); color:var(--accent2); font-size:1.25rem; z-index:1; }
+    .search-empty { display:none; padding:1.5rem; text-align:center; color:var(--muted); border-top:1px dashed var(--border); }
+    @media(max-width:600px) { .table-toolbar { align-items:stretch; flex-direction:column; } .table-search { max-width:none; } }
 </style>
 @endsection
 
 @section('content')
 <div class="admin-header">
-    <div class="admin-title">⚙️ Panel de Administración</div>
+    <div class="admin-title"><img class="admin-brand theme-logo-light" src="{{ asset('logo-cropped.png') }}" alt="CiberEskola"><img class="admin-brand theme-logo-dark" src="{{ asset('logo-dark-transparent.png') }}" alt="CiberEskola">⚙️ Panel de Administración</div>
     <span style="color:var(--muted); font-size:0.9rem;">Bienvenido, {{ Auth::user()->nombre }}</span>
 </div>
 
@@ -110,7 +117,12 @@
     </div>
 
     {{-- Tabla de alumnos --}}
-    <div class="table-wrapper">
+    <div class="table-toolbar">
+        <div class="table-search">
+            <input id="user-search" type="search" class="form-control" placeholder="Buscar usuario por nombre o email..." aria-label="Buscar usuarios">
+        </div>
+    </div>
+    <div class="table-wrapper" data-search-table="user-search">
         <table>
             <thead>
                 <tr>
@@ -148,10 +160,11 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="6" style="text-align:center; color:var(--muted); padding:2rem;">No hay alumnos registrados.</td></tr>
+                <tr><td colspan="6" style="text-align:center; color:var(--muted); padding:2rem;">👥<br>No hay alumnos registrados.</td></tr>
                 @endforelse
             </tbody>
         </table>
+        <div class="search-empty">No se encontraron usuarios.</div>
     </div>
 </div>
 
@@ -203,7 +216,12 @@
     </div>
 
     {{-- Tabla de cursos --}}
-    <div class="table-wrapper">
+    <div class="table-toolbar">
+        <div class="table-search">
+            <input id="course-search" type="search" class="form-control" placeholder="Buscar curso por nombre o categoria..." aria-label="Buscar cursos">
+        </div>
+    </div>
+    <div class="table-wrapper" data-search-table="course-search">
         <table>
             <thead>
                 <tr>
@@ -270,10 +288,11 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" style="text-align:center; color:var(--muted); padding:2rem;">No hay cursos creados.</td></tr>
+                <tr><td colspan="8" style="text-align:center; color:var(--muted); padding:2rem;">📚<br>No hay cursos creados.</td></tr>
                 @endforelse
             </tbody>
         </table>
+        <div class="search-empty">No se encontraron cursos.</div>
     </div>
 </div>
 
@@ -297,7 +316,7 @@
                     <td style="color:var(--muted); font-size:0.85rem;">{{ $mat->fecha_matricula }}</td>
                 </tr>
                 @empty
-                <tr><td colspan="4" style="text-align:center; color:var(--muted); padding:2rem;">No hay matrículas.</td></tr>
+                <tr><td colspan="4" style="text-align:center; color:var(--muted); padding:2rem;">📋<br>No hay matrículas.</td></tr>
                 @endforelse
             </tbody>
         </table>
@@ -308,5 +327,22 @@
     function toggleForm(id) {
         document.getElementById(id).classList.toggle('open');
     }
+
+    document.querySelectorAll('[data-search-table]').forEach((tableWrapper) => {
+        const input = document.getElementById(tableWrapper.dataset.searchTable);
+        const rows = [...tableWrapper.querySelectorAll('tbody tr')].filter((row) => !row.querySelector('td[colspan]'));
+        const empty = tableWrapper.querySelector('.search-empty');
+
+        input.addEventListener('input', () => {
+            const query = input.value.trim().toLocaleLowerCase();
+            let visibleRows = 0;
+            rows.forEach((row) => {
+                const matches = row.textContent.toLocaleLowerCase().includes(query);
+                row.hidden = !matches;
+                if (matches) visibleRows++;
+            });
+            empty.style.display = visibleRows === 0 ? 'block' : 'none';
+        });
+    });
 </script>
 @endsection

@@ -37,12 +37,12 @@
     <span class="badge badge-blue">Alumno</span>
 </div>
 
-<div class="section-title">📚 Cursos disponibles</div>
+<div class="section-title">📚 Mis cursos</div>
 
 @if($cursos->isEmpty())
-    <div style="text-align:center; padding:4rem; color:var(--muted);">
+    <div class="empty-state" style="text-align:center; padding:4rem;">
         <div style="font-size:3rem; margin-bottom:1rem;">📭</div>
-        <p>No hay cursos disponibles en este momento.</p>
+        <p>Aún no tienes cursos matriculados.</p>
     </div>
 @else
     <div class="grid grid-3">

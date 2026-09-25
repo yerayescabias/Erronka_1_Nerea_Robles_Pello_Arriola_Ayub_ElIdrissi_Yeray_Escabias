@@ -26,6 +26,10 @@
     .auth-box::before { content: 'JOIN\A THE\A NETWORK'; white-space: pre; position: absolute; inset: 0 auto 0 0; width: 42%; padding: 4rem 2.5rem; background: linear-gradient(150deg, #06285a, #087c73); color: #fff; font-size: clamp(2.4rem, 5vw, 4.5rem); line-height: 0.86; font-weight: 800; letter-spacing: -0.06em; }
     .auth-box::after { display: none; }
     .auth-title   { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; text-align: center; }
+    .auth-logo { display: block; width: 180px; height: 54px; object-fit: contain; margin: 0 auto 1.25rem; }
+    .auth-logo-dark { display: none; }
+    :root:not([data-theme="light"]) .auth-logo-light { display: none; }
+    :root:not([data-theme="light"]) .auth-logo-dark { display: block; object-fit: cover; }
     .auth-subtitle { color: var(--muted); font-size: 0.9rem; text-align: center; margin-bottom: 2rem; }
     .auth-footer { text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: var(--muted); }
     .auth-footer a { color: var(--accent2); text-decoration: none; }
@@ -45,6 +49,8 @@
 @section('content')
 <div class="auth-wrapper">
     <div class="auth-box">
+        <img class="auth-logo auth-logo-light" src="{{ asset('logo-cropped.png') }}" alt="CiberEskola">
+        <img class="auth-logo auth-logo-dark" src="{{ asset('logo-dark-transparent.png') }}" alt="CiberEskola">
         <div class="auth-title">📋 Registrarse</div>
         <div class="auth-subtitle">Activa tu cuenta de alumno</div>
 
@@ -53,7 +59,7 @@
         </div>
 
         @if($errors->any())
-            <div class="alert alert-error">
+            <div class="alert alert-error error-summary" role="alert">
                 @foreach($errors->all() as $error)
                     <div>{{ $error }}</div>
                 @endforeach

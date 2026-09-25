@@ -31,6 +31,10 @@
         margin-bottom: 0.5rem;
         text-align: center;
     }
+    .auth-logo { display: block; width: 180px; height: 54px; object-fit: contain; margin: 0 auto 1.25rem; }
+    .auth-logo-dark { display: none; }
+    :root:not([data-theme="light"]) .auth-logo-light { display: none; }
+    :root:not([data-theme="light"]) .auth-logo-dark { display: block; object-fit: cover; }
     .auth-subtitle {
         color: var(--muted);
         font-size: 0.9rem;
@@ -52,11 +56,13 @@
 @section('content')
 <div class="auth-wrapper">
     <div class="auth-box">
+        <img class="auth-logo auth-logo-light" src="{{ asset('logo-cropped.png') }}" alt="CiberEskola">
+        <img class="auth-logo auth-logo-dark" src="{{ asset('logo-dark-transparent.png') }}" alt="CiberEskola">
         <div class="auth-title">🔐 Iniciar sesión</div>
         <div class="auth-subtitle">Accede a tu cuenta de CiberEskola</div>
 
         @if($errors->any())
-            <div class="alert alert-error">
+            <div class="alert alert-error error-summary" role="alert">
                 @foreach($errors->all() as $error)
                     <div>{{ $error }}</div>
                 @endforeach

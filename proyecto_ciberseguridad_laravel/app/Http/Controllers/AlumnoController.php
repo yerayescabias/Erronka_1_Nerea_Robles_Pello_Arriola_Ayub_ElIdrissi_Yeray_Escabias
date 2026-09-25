@@ -12,11 +12,9 @@ class AlumnoController extends Controller
     public function dashboard()
     {
         $user   = Auth::user();
-        $cursos = Curso::activos();
-
-        // Marcar en cuáles ya está matriculado
         $matriculas = Matricula::porUsuario($user->id);
-        $matriculados = $matriculas->pluck('id_curso')->toArray();
+        $cursos = $matriculas->pluck('curso')->filter()->values();
+        $matriculados = $cursos->pluck('id')->toArray();
 
         return view('alumno.dashboard', compact('user', 'cursos', 'matriculados', 'matriculas'));
     }
