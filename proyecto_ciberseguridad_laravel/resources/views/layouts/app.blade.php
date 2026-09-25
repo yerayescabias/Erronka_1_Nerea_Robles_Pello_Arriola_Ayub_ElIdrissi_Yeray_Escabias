@@ -5,30 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Ikastetxea - Centro Educativo')</title>
     <meta name="description" content="Centro educativo de ciberseguridad">
+    <link rel="icon" type="image/png" href="{{ asset('logo-cropped.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('logo-cropped.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>document.documentElement.dataset.theme = localStorage.getItem('ciberskola-theme') || 'dark';</script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --bg:        #0a0e1a;
-            --surface:   #111827;
-            --surface2:  #1f2937;
-            --border:    #2d3748;
-            --accent:    #6366f1;
-            --accent2:   #818cf8;
-            --green:     #10b981;
-            --red:       #ef4444;
-            --yellow:    #f59e0b;
-            --text:      #f1f5f9;
-            --muted:     #94a3b8;
-            --radius:    12px;
+            --bg:        #070b12;
+            --surface:   #0e1620;
+            --surface2:  #172431;
+            --border:    #253746;
+            --accent:    #00d39a;
+            --accent2:   #087c73;
+            --green:     #0aa875;
+            --red:       #d94b68;
+            --yellow:    #d89427;
+            --text:      #f0f8f7;
+            --muted:     #9ab2b5;
+            --radius:    10px;
+        }
+        :root[data-theme="light"] {
+            --bg: #e7f1f1;
+            --surface: #fbfefd;
+            --surface2: #ffffff;
+            --border: #c5ddda;
+            --text: #06285a;
+            --muted: #587078;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Manrope', sans-serif;
             background: var(--bg);
+            background-image: radial-gradient(circle at 8% 0%, rgba(0,211,154,0.12), transparent 28rem), radial-gradient(circle at 95% 45%, rgba(6,40,90,0.2), transparent 24rem);
             color: var(--text);
             min-height: 100vh;
             line-height: 1.6;
@@ -36,13 +48,14 @@
 
         /* ── NAV ── */
         nav {
-            background: rgba(17,24,39,0.9);
-            backdrop-filter: blur(12px);
+            background: rgba(7,11,18,0.92);
+            backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
             padding: 0 2rem;
+            box-shadow: 0 3px 18px rgba(6,40,90,0.08);
         }
         .nav-inner {
             max-width: 1200px;
@@ -50,18 +63,25 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 64px;
+            height: 78px;
         }
         .nav-brand {
             font-size: 1.25rem;
             font-weight: 700;
             color: var(--accent2);
+            letter-spacing: 0.02em;
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            height: 48px;
         }
-        .nav-brand::before { content: '🛡️'; }
+        .nav-brand::before { display: none; }
+        .nav-brand img { width: 235px; height: 62px; object-fit: contain; object-position: center; }
+        .nav-brand .logo-dark { display: none; }
+        :root:not([data-theme="light"]) .nav-brand { padding: 5px 0; }
+        :root:not([data-theme="light"]) .nav-brand .logo-light { display: none; }
+        :root:not([data-theme="light"]) .nav-brand .logo-dark { display: block; filter: drop-shadow(0 0 10px rgba(0,211,154,0.2)); }
         .nav-links { display: flex; align-items: center; gap: 1rem; }
         .nav-links a, .nav-links button {
             padding: 0.45rem 1rem;
@@ -76,14 +96,29 @@
         }
         .btn-ghost { color: var(--muted); background: transparent; }
         .btn-ghost:hover { color: var(--text); background: var(--surface2); }
-        .btn-primary { color: #fff; background: var(--accent); }
-        .btn-primary:hover { background: #4f46e5; transform: translateY(-1px); }
+        .btn-primary { color: #ffffff; background: #087c73; }
+        .btn-primary:hover { background: #00a987; transform: translateY(-1px); }
         .btn-outline { color: var(--accent2); background: transparent; border: 1px solid var(--accent); }
         .btn-outline:hover { background: var(--accent); color: #fff; }
         .btn-danger { color: #fff; background: var(--red); }
         .btn-danger:hover { background: #dc2626; }
         .btn-success { color: #fff; background: var(--green); }
         .btn-success:hover { background: #059669; }
+        .theme-toggle {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: var(--surface2);
+            color: var(--yellow);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s, background 0.2s;
+        }
+        .theme-toggle:hover { transform: rotate(18deg) scale(1.05); border-color: var(--accent); }
+        :root[data-theme="light"] .theme-toggle { color: #06285a; background: #ffffff; }
 
         /* ── MAIN ── */
         main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
@@ -102,13 +137,13 @@
 
         /* ── CARDS ── */
         .card {
-            background: var(--surface);
+            background: linear-gradient(145deg, rgba(13,34,41,0.96), rgba(10,28,34,0.96));
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 1.5rem;
             transition: border-color 0.2s, transform 0.2s;
         }
-        .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 18px 40px rgba(0,0,0,0.2); }
 
         /* ── FORMS ── */
         .form-group { margin-bottom: 1.25rem; }
@@ -122,9 +157,10 @@
             color: var(--text);
             font-family: inherit;
             font-size: 0.95rem;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .form-control:focus { outline: none; border-color: var(--accent); }
+        .form-control::placeholder { color: #8fa8ac; opacity: 1; }
+        .form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,211,154,0.16); }
         .form-control.is-invalid { border-color: var(--red); }
         .invalid-feedback { color: var(--red); font-size: 0.8rem; margin-top: 0.25rem; }
 
@@ -143,7 +179,7 @@
 
         /* ── TABLE ── */
         table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        th { padding: 0.75rem 1rem; text-align: left; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); }
+        th { padding: 0.75rem 1rem; text-align: left; color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid var(--border); }
         td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: var(--surface2); }
@@ -165,13 +201,27 @@
             border-top: 1px solid var(--border);
             margin-top: 4rem;
         }
+        @media (max-width: 640px) {
+            nav { padding: 0 1rem; }
+            .nav-inner { height: auto; min-height: 70px; gap: 0.75rem; flex-wrap: wrap; padding: 0.5rem 0; }
+            .nav-brand img { width: 185px; height: 54px; }
+            .nav-links { gap: 0.35rem; flex-wrap: wrap; justify-content: flex-end; }
+            .nav-links > span { display: none; }
+            main { padding: 1.25rem 1rem; }
+            .section-title { font-size: 1.25rem; }
+        }
+        :root[data-theme="light"] nav { background: rgba(255,255,255,0.9); }
+        :root[data-theme="light"] body { background-image: radial-gradient(circle at 8% 0%, rgba(0,211,154,0.16), transparent 28rem), radial-gradient(circle at 95% 45%, rgba(6,40,90,0.1), transparent 24rem); }
     </style>
     @yield('styles')
 </head>
 <body>
     <nav>
         <div class="nav-inner">
-            <a class="nav-brand" href="{{ route('inicio') }}">CiberEskola</a>
+            <a class="nav-brand" href="{{ route('inicio') }}" aria-label="CiberEskola">
+                <img class="logo-light" src="{{ asset('logo-cropped.png') }}" alt="CiberEskola">
+                <img class="logo-dark" src="{{ asset('logo-dark.png') }}" alt="CiberEskola">
+            </a>
             <div class="nav-links">
                 @auth
                     <span style="color:var(--muted); font-size:0.85rem;">
@@ -193,6 +243,7 @@
                     <a href="{{ route('login') }}"    class="btn-ghost">Iniciar sesión</a>
                     <a href="{{ route('register') }}" class="btn-primary">Registrarse</a>
                 @endauth
+                <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Cambiar a tema claro" title="Cambiar tema">☀</button>
             </div>
         </div>
     </nav>
@@ -214,5 +265,21 @@
     <footer>
         <p>🛡️ CiberEskola — Centro de Formación en Ciberseguridad &copy; {{ date('Y') }}</p>
     </footer>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const updateThemeToggle = () => {
+            const isLight = document.documentElement.dataset.theme === 'light';
+            themeToggle.textContent = isLight ? '☾' : '☀';
+            themeToggle.setAttribute('aria-label', isLight ? 'Cambiar a tema negro' : 'Cambiar a tema claro');
+            themeToggle.title = isLight ? 'Cambiar a tema negro' : 'Cambiar a tema claro';
+        };
+        updateThemeToggle();
+        themeToggle.addEventListener('click', () => {
+            const nextTheme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+            document.documentElement.dataset.theme = nextTheme;
+            localStorage.setItem('ciberskola-theme', nextTheme);
+            updateThemeToggle();
+        });
+    </script>
 </body>
 </html>

@@ -5,32 +5,40 @@
 @section('styles')
 <style>
     .auth-wrapper {
-        min-height: calc(100vh - 200px);
+        min-height: calc(100vh - 150px);
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 2rem 0;
     }
     .auth-box {
+        position: relative;
         width: 100%;
-        max-width: 420px;
+        max-width: 980px;
+        min-height: 600px;
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 2.5rem;
+        border-radius: 2px;
+        padding: 4.5rem 5rem 3.5rem 48%;
+        box-shadow: 18px 20px 0 rgba(6,40,90,0.08), 0 20px 45px rgba(6,40,90,0.1);
+        overflow: hidden;
     }
+    .auth-box::before { content: 'JOIN\A THE\A NETWORK'; white-space: pre; position: absolute; inset: 0 auto 0 0; width: 42%; padding: 4rem 2.5rem; background: linear-gradient(150deg, #06285a, #087c73); color: #fff; font-size: clamp(2.4rem, 5vw, 4.5rem); line-height: 0.86; font-weight: 800; letter-spacing: -0.06em; }
+    .auth-box::after { display: none; }
     .auth-title   { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; text-align: center; }
     .auth-subtitle { color: var(--muted); font-size: 0.9rem; text-align: center; margin-bottom: 2rem; }
     .auth-footer { text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: var(--muted); }
     .auth-footer a { color: var(--accent2); text-decoration: none; }
     .info-box {
-        background: rgba(99,102,241,0.1);
-        border: 1px solid rgba(99,102,241,0.3);
+        background: rgba(45,212,191,0.08);
+        border: 1px solid rgba(45,212,191,0.3);
         border-radius: 8px;
         padding: 0.75rem 1rem;
         font-size: 0.85rem;
         color: var(--accent2);
         margin-bottom: 1.5rem;
     }
+    @media (max-width: 680px) { .auth-box { padding: 2rem 1.5rem; min-height: auto; } .auth-box::before, .auth-box::after { display: none; } }
 </style>
 @endsection
 

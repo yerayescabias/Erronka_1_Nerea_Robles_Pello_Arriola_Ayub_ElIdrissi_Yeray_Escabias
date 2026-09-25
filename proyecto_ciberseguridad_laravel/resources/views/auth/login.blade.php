@@ -5,19 +5,26 @@
 @section('styles')
 <style>
     .auth-wrapper {
-        min-height: calc(100vh - 200px);
+        min-height: calc(100vh - 150px);
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 2rem 0;
     }
     .auth-box {
+        position: relative;
         width: 100%;
-        max-width: 420px;
+        max-width: 980px;
+        min-height: 540px;
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 2.5rem;
+        border-radius: 2px;
+        padding: 4.5rem 5rem 3.5rem 48%;
+        box-shadow: 18px 20px 0 rgba(6,40,90,0.08), 0 20px 45px rgba(6,40,90,0.1);
+        overflow: hidden;
     }
+    .auth-box::before { content: 'CIBER\A ESKOLA'; white-space: pre; position: absolute; inset: 0 auto 0 0; width: 42%; padding: 4rem 2.5rem; background: linear-gradient(150deg, #06285a, #087c73); color: #fff; font-size: clamp(2.4rem, 5vw, 4.5rem); line-height: 0.86; font-weight: 800; letter-spacing: -0.06em; }
+    .auth-box::after { content: 'ACCESS / 01\A\A PROTECTED LEARNING ENVIRONMENT'; white-space: pre; position: absolute; left: 2.5rem; bottom: 2.5rem; color: var(--accent2); font: 0.68rem/1.8 'DM Mono', monospace; letter-spacing: 0.08em; }
     .auth-title {
         font-size: 1.75rem;
         font-weight: 800;
@@ -38,6 +45,7 @@
     }
     .auth-footer a { color: var(--accent2); text-decoration: none; }
     .auth-footer a:hover { text-decoration: underline; }
+    @media (max-width: 680px) { .auth-box { padding: 2rem 1.5rem; min-height: auto; } .auth-box::before, .auth-box::after { display: none; } }
 </style>
 @endsection
 
