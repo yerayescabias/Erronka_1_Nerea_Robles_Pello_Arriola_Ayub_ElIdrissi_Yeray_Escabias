@@ -20,7 +20,7 @@
             --surface2:  #172431;
             --border:    #253746;
             --accent:    #00d39a;
-            --accent2:   #087c73;
+            --accent2:   #8be8dc;
             --green:     #0aa875;
             --red:       #d94b68;
             --yellow:    #d89427;
@@ -33,6 +33,7 @@
             --surface: #fbfefd;
             --surface2: #ffffff;
             --border: #c5ddda;
+            --accent2: #087c73;
             --text: #06285a;
             --muted: #587078;
         }
@@ -119,6 +120,18 @@
         }
         .theme-toggle:hover { transform: rotate(18deg) scale(1.05); border-color: var(--accent); }
         :root[data-theme="light"] .theme-toggle { color: #06285a; background: #ffffff; }
+        .language-toggle {
+            height: 34px;
+            padding: 0 0.65rem;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: var(--surface2);
+            color: var(--accent2);
+            font: 500 0.72rem 'DM Mono', monospace;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+        }
+        .language-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
         /* ── MAIN ── */
         main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
@@ -243,6 +256,7 @@
                     <a href="{{ route('login') }}"    class="btn-ghost">Iniciar sesión</a>
                     <a href="{{ route('register') }}" class="btn-primary">Registrarse</a>
                 @endauth
+                <button class="language-toggle" type="button" id="language-toggle" aria-label="Cambiar idioma" title="Cambiar idioma">ES / EU</button>
                 <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Cambiar a tema claro" title="Cambiar tema">☀</button>
             </div>
         </div>
@@ -267,6 +281,7 @@
     </footer>
     <script>
         const themeToggle = document.getElementById('theme-toggle');
+        const languageToggle = document.getElementById('language-toggle');
         const updateThemeToggle = () => {
             const isLight = document.documentElement.dataset.theme === 'light';
             themeToggle.textContent = isLight ? '☾' : '☀';
@@ -279,6 +294,67 @@
             document.documentElement.dataset.theme = nextTheme;
             localStorage.setItem('ciberskola-theme', nextTheme);
             updateThemeToggle();
+        });
+        const translations = {
+            es: {
+                'Iniciar sesión': 'Iniciar sesión',
+                'Registrarse': 'Registrarse',
+                'Mis cursos': 'Mis cursos',
+                'Panel Admin': 'Panel Admin',
+                'Salir': 'Salir',
+                'Cursos disponibles': 'Cursos disponibles',
+                '📚 Cursos disponibles': '📚 Cursos disponibles',
+                '🔐 Iniciar sesión': '🔐 Iniciar sesión',
+                '📋 Registrarse': '📋 Registrarse',
+                'Centro de formación en ciberseguridad. Descubre nuestros cursos y empieza tu carrera en el mundo de la seguridad informática.': 'Centro de formación en ciberseguridad. Descubre nuestros cursos y empieza tu carrera en el mundo de la seguridad informática.',
+                'Inicia sesión para matricularte': 'Inicia sesión para matricularte',
+                'Correo electrónico': 'Correo electrónico',
+                'Contraseña': 'Contraseña',
+                'Recordarme': 'Recordarme',
+                'Entrar': 'Entrar',
+                '¿No tienes cuenta?': '¿No tienes cuenta?',
+                'Regístrate aquí': 'Regístrate aquí',
+                'Activar cuenta': 'Activar cuenta'
+            },
+            eu: {
+                'Iniciar sesión': 'Saioa hasi',
+                'Registrarse': 'Erregistratu',
+                'Mis cursos': 'Nire ikastaroak',
+                'Panel Admin': 'Admin panela',
+                'Salir': 'Irten',
+                'Cursos disponibles': 'Eskuragarri dauden ikastaroak',
+                '📚 Cursos disponibles': '📚 Eskuragarri dauden ikastaroak',
+                '🔐 Iniciar sesión': '🔐 Saioa hasi',
+                '📋 Registrarse': '📋 Erregistratu',
+                'Centro de formación en ciberseguridad. Descubre nuestros cursos y empieza tu carrera en el mundo de la seguridad informática.': 'Zibersegurtasuneko prestakuntza-zentroa. Ezagutu gure ikastaroak eta hasi zure ibilbidea informatika-segurtasunaren munduan.',
+                'Inicia sesión para matricularte': 'Hasi saioa izena emateko',
+                'Correo electrónico': 'Posta elektronikoa',
+                'Contraseña': 'Pasahitza',
+                'Recordarme': 'Gogora nazazu',
+                'Entrar': 'Sartu',
+                '¿No tienes cuenta?': 'Ez duzu konturik?',
+                'Regístrate aquí': 'Erregistratu hemen',
+                'Activar cuenta': 'Aktibatu kontua'
+            }
+        };
+        const translatePage = (language) => {
+            document.documentElement.lang = language === 'eu' ? 'eu' : 'es';
+            document.querySelectorAll('body *').forEach((element) => {
+                if (element.children.length === 0 && translations[language][element.textContent.trim()]) {
+                    element.textContent = translations[language][element.textContent.trim()];
+                }
+                if (element.placeholder && translations[language][element.placeholder]) {
+                    element.placeholder = translations[language][element.placeholder];
+                }
+            });
+            languageToggle.textContent = language === 'eu' ? 'EU / ES' : 'ES / EU';
+            localStorage.setItem('ciberskola-language', language);
+        };
+        translatePage(localStorage.getItem('ciberskola-language') || 'es');
+        languageToggle.addEventListener('click', () => {
+            const nextLanguage = (localStorage.getItem('ciberskola-language') || 'es') === 'es' ? 'eu' : 'es';
+            localStorage.setItem('ciberskola-language', nextLanguage);
+            window.location.reload();
         });
     </script>
 </body>
