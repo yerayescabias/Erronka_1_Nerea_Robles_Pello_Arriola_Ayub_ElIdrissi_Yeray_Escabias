@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-09-2026 a las 12:26:13
+-- Tiempo de generación: 28-09-2026 a las 08:28:12
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -29,27 +29,23 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cursos` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `nombre` varchar(150) NOT NULL,
-  `descripcion` text DEFAULT NULL,
-  `categoria` varchar(100) DEFAULT NULL,
-  `duracion_horas` int(11) DEFAULT NULL,
-  `nivel` enum('basico','intermedio','avanzado') NOT NULL DEFAULT 'basico',
-  `activo` tinyint(1) NOT NULL DEFAULT 1,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `titulo` varchar(150) NOT NULL,
+  `hasiera_data` date DEFAULT NULL,
+  `bukaera_data` date DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `cursos`
 --
 
-INSERT INTO `cursos` (`id`, `nombre`, `descripcion`, `categoria`, `duracion_horas`, `nivel`, `activo`, `created_at`, `updated_at`) VALUES
-(1, 'Hacking Ético y Pentesting', 'Aprende las técnicas de los hackers para proteger sistemas. Metodologías de pentesting, reconocimiento, explotación y post-explotación.', 'Offensive Security', 60, 'intermedio', 1, '2026-09-24 08:10:53', '2026-09-24 08:10:53'),
-(2, 'Análisis Forense Digital', 'Identificación, preservación y análisis de evidencias digitales. Cadena de custodia y elaboración de informes periciales.', 'Forensics', 40, 'avanzado', 1, '2026-09-24 08:10:53', '2026-09-24 08:10:53'),
-(3, 'Seguridad en Redes y Sistemas', 'Cortafuegos, IDS/IPS, VPNs, segmentación de redes, DMZ y hardening de sistemas operativos.', 'Network Security', 50, 'intermedio', 1, '2026-09-24 08:10:53', '2026-09-24 08:10:53'),
-(4, 'Ciberseguridad para Principiantes', 'Conceptos fundamentales de ciberseguridad: amenazas, vulnerabilidades, buenas prácticas y concienciación.', 'Fundamentos', 30, 'basico', 1, '2026-09-24 08:10:53', '2026-09-24 08:10:53'),
-(5, 'OSINT e Inteligencia en Fuentes Abiertas', 'Técnicas de recopilación de información en fuentes abiertas: Google Dorks, Shodan, Maltego y más.', 'Reconnaissance', 25, 'intermedio', 1, '2026-09-24 08:10:53', '2026-09-24 08:10:53'),
-(6, 'Respuesta a Incidentes y Blue Team', 'Detección, contención y erradicación de incidentes. SIEM, SOC y planes de continuidad de negocio.', 'Defensive Security', 45, 'avanzado', 1, '2026-09-24 08:10:53', '2026-09-24 08:10:53');
+INSERT INTO `cursos` (`id`, `titulo`, `hasiera_data`, `bukaera_data`, `created_at`) VALUES
+(2, 'Hacking Ético y Pentesting', NULL, NULL, '2026-09-25 10:04:36'),
+(3, 'Análisis Forense Digital', NULL, NULL, '2026-09-25 10:04:36'),
+(4, 'Seguridad en Redes y Sistemas', NULL, NULL, '2026-09-25 10:04:36'),
+(5, 'Ciberseguridad para Principiantes', NULL, NULL, '2026-09-25 10:04:36'),
+(6, 'OSINT e Inteligencia en Fuentes Abiertas', NULL, NULL, '2026-09-25 10:04:36'),
+(7, 'Respuesta a Incidentes y Blue Team', NULL, NULL, '2026-09-25 10:04:36');
 
 -- --------------------------------------------------------
 
@@ -70,22 +66,6 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `matriculas`
---
-
-CREATE TABLE `matriculas` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `usuario_id` bigint(20) UNSIGNED NOT NULL,
-  `curso_id` bigint(20) UNSIGNED NOT NULL,
-  `estado` enum('pendiente','activa','completada','cancelada') NOT NULL DEFAULT 'activa',
-  `fecha_matricula` timestamp NOT NULL DEFAULT current_timestamp(),
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `migrations`
 --
 
@@ -100,12 +80,13 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2026_09_24_085347_create_cursos_table', 1),
-(6, '2026_09_24_085349_create_matriculas_table', 1);
+(1, '2014_10_11_000000_create_roles_table', 1),
+(2, '2014_10_12_000000_create_users_table', 1),
+(3, '2014_10_12_100000_create_password_resets_table', 1),
+(4, '2019_08_19_000000_create_failed_jobs_table', 1),
+(5, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(6, '2026_09_24_085347_create_cursos_table', 1),
+(7, '2026_09_24_085349_create_matriculas_table', 1);
 
 -- --------------------------------------------------------
 
@@ -141,28 +122,67 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `rol`
+--
+
+CREATE TABLE `rol` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `rol` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `rol`
+--
+
+INSERT INTO `rol` (`id`, `rol`) VALUES
+(1, 'admin'),
+(2, 'alumno');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
 CREATE TABLE `usuarios` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `nombre` varchar(100) NOT NULL,
+  `izena` varchar(100) NOT NULL,
+  `abizena` varchar(100) DEFAULT NULL,
   `email` varchar(150) NOT NULL,
-  `password_hash` varchar(255) DEFAULT NULL,
-  `rol` enum('admin','alumno') NOT NULL DEFAULT 'alumno',
-  `pre_registrado` tinyint(1) NOT NULL DEFAULT 1,
-  `creado_en` timestamp NOT NULL DEFAULT current_timestamp()
+  `pasahitza` varchar(255) DEFAULT NULL,
+  `jaiotze_data` date DEFAULT NULL,
+  `rol` bigint(20) UNSIGNED NOT NULL DEFAULT 2,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password_hash`, `rol`, `pre_registrado`, `creado_en`) VALUES
-(1, 'Administrador', 'admin@cibereskola.eus', '$2y$10$WSuLI4zNh7Pl7uF5.lmUaO7v1m0RKihfS7VypTYi9Efs0YDjD1fsC', 'admin', 0, '2026-09-24 10:10:53'),
-(2, 'Ane Garmendia', 'ane@ikasle.eus', NULL, 'alumno', 1, '2026-09-24 10:10:53'),
-(3, 'Mikel Etxeberria', 'mikel@ikasle.eus', NULL, 'alumno', 1, '2026-09-24 10:10:53'),
-(4, 'Leire Azpeitia', 'leire@ikasle.eus', NULL, 'alumno', 1, '2026-09-24 10:10:53');
+INSERT INTO `usuarios` (`id`, `izena`, `abizena`, `email`, `pasahitza`, `jaiotze_data`, `rol`, `created_at`) VALUES
+(4, 'Administrador', NULL, 'admin@cibereskola.eus', '$2y$10$6xM6qfkPG4e.sXc0muU/7.cZX8XRgSnV6YOL5i0Sya1UmGEDNhmiq', NULL, 1, '2026-09-25 10:04:36'),
+(5, 'Ane Garmendia', NULL, 'ane@ikasle.eus', '$2y$10$4zuTxy48jEPAdGr4tUnqbeGFiW6RjoYjfdAJPDm648s2bfbSsVl.e', NULL, 2, '2026-09-25 10:04:36'),
+(6, 'Mikel Etxeberria', NULL, 'mikel@ikasle.eus', NULL, NULL, 2, '2026-09-25 10:04:36'),
+(7, 'Leire Azpeitia', NULL, 'leire@ikasle.eus', NULL, NULL, 2, '2026-09-25 10:04:36');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarioscursos`
+--
+
+CREATE TABLE `usuarioscursos` (
+  `id_usuario` bigint(20) UNSIGNED NOT NULL,
+  `id_curso` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `usuarioscursos`
+--
+
+INSERT INTO `usuarioscursos` (`id_usuario`, `id_curso`, `created_at`) VALUES
+(5, 6, '2026-09-25 08:09:40');
 
 --
 -- Índices para tablas volcadas
@@ -180,14 +200,6 @@ ALTER TABLE `cursos`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
-
---
--- Indices de la tabla `matriculas`
---
-ALTER TABLE `matriculas`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `matriculas_usuario_id_curso_id_unique` (`usuario_id`,`curso_id`),
-  ADD KEY `matriculas_curso_id_foreign` (`curso_id`);
 
 --
 -- Indices de la tabla `migrations`
@@ -210,11 +222,26 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
+-- Indices de la tabla `rol`
+--
+ALTER TABLE `rol`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `rol_rol_unique` (`rol`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `usuarios_email_unique` (`email`);
+  ADD UNIQUE KEY `usuarios_email_unique` (`email`),
+  ADD KEY `usuarios_rol_foreign` (`rol`);
+
+--
+-- Indices de la tabla `usuarioscursos`
+--
+ALTER TABLE `usuarioscursos`
+  ADD UNIQUE KEY `usuarioscursos_id_usuario_id_curso_unique` (`id_usuario`,`id_curso`),
+  ADD KEY `usuarioscursos_id_curso_foreign` (`id_curso`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -224,7 +251,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -233,16 +260,10 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `matriculas`
---
-ALTER TABLE `matriculas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
@@ -251,21 +272,33 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `rol`
+--
+ALTER TABLE `rol`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `matriculas`
+-- Filtros para la tabla `usuarios`
 --
-ALTER TABLE `matriculas`
-  ADD CONSTRAINT `matriculas_curso_id_foreign` FOREIGN KEY (`curso_id`) REFERENCES `cursos` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `matriculas_usuario_id_foreign` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `usuarios_rol_foreign` FOREIGN KEY (`rol`) REFERENCES `rol` (`id`);
+
+--
+-- Filtros para la tabla `usuarioscursos`
+--
+ALTER TABLE `usuarioscursos`
+  ADD CONSTRAINT `usuarioscursos_id_curso_foreign` FOREIGN KEY (`id_curso`) REFERENCES `cursos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `usuarioscursos_id_usuario_foreign` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
