@@ -1,0 +1,29 @@
+# Copiar a /etc/apache2/sites-available/ciberskola.conf
+# Sustituir el dominio y las rutas antes de activarlo.
+
+<VirtualHost *:80>
+    ServerName ciberskola.example.eus
+    Redirect permanent / https://ciberskola.example.eus/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName ciberskola.example.eus
+    DocumentRoot /var/www/ciberskola/public
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/ciberskola/fullchain.pem
+    SSLCertificateKeyFile /etc/ssl/ciberskola/privkey.pem
+
+    <Directory /var/www/ciberskola/public>
+        AllowOverride All
+        Options -Indexes -MultiViews
+        Require all granted
+    </Directory>
+
+    <FilesMatch "^\.env|^(composer\.(json|lock)|package(-lock)?\.json|phpunit\.xml)$">
+        Require all denied
+    </FilesMatch>
+
+    ErrorLog ${APACHE_LOG_DIR}/ciberskola-error.log
+    CustomLog ${APACHE_LOG_DIR}/ciberskola-access.log combined
+</VirtualHost>
