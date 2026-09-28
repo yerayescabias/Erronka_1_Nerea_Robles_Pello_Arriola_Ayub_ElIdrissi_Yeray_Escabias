@@ -51,7 +51,7 @@
     <div class="auth-box">
         <img class="auth-logo auth-logo-light" src="{{ asset('logo-cropped.png') }}" alt="CiberEskola">
         <img class="auth-logo auth-logo-dark" src="{{ asset('logo-dark-transparent.png') }}" alt="CiberEskola">
-        <div class="auth-title">📋 Registrarse</div>
+        <div class="auth-title" data-i18n="register.title">📋 Registrarse</div>
         <div class="auth-subtitle">Activa tu cuenta de alumno</div>
 
         <div class="info-box">

@@ -37,7 +37,7 @@
     <span class="badge badge-blue">Alumno</span>
 </div>
 
-<div class="section-title">📚 Mis cursos</div>
+<div class="section-title" data-i18n="student.courses">📚 Mis cursos</div>
 
 @if($cursos->isEmpty())
     <div class="empty-state" style="text-align:center; padding:4rem;">
@@ -54,7 +54,7 @@
                     {{ ['basico'=>'🌱','intermedio'=>'⚡','avanzado'=>'🔥'][$curso->nivel] ?? '📘' }}
                 </div>
                 @if($yaMatriculado)
-                    <span class="badge badge-green">✅ Matriculado</span>
+                    <span class="badge badge-green" data-i18n="student.enrolled">✅ Matriculado</span>
                 @endif
             </div>
 
@@ -84,7 +84,7 @@
                 </form>
             @else
                 <div style="text-align:center; padding:0.6rem; color:var(--green); font-size:0.9rem; font-weight:600;">
-                    Ya estás inscrito en este curso
+                    <span data-i18n="student.already_enrolled">Ya estás inscrito en este curso</span>
                 </div>
             @endif
         </div>
@@ -92,7 +92,7 @@
     </div>
 @endif
 
-<div class="section-title" style="margin-top:3rem;">📋 Mis matrículas</div>
+<div class="section-title" style="margin-top:3rem;" data-i18n="student.enrollments">📋 Mis matrículas</div>
 <div class="table-wrapper">
     <table>
         <thead><tr><th>Curso</th><th>Estado</th><th>Fecha</th><th>Acción</th></tr></thead>

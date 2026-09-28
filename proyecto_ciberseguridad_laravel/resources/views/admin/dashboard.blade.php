@@ -56,7 +56,7 @@
 
 @section('content')
 <div class="admin-header">
-    <div class="admin-title"><img class="admin-brand theme-logo-light" src="{{ asset('logo-cropped.png') }}" alt="CiberEskola"><img class="admin-brand theme-logo-dark" src="{{ asset('logo-dark-transparent.png') }}" alt="CiberEskola">⚙️ Panel de Administración</div>
+    <div class="admin-title"><img class="admin-brand theme-logo-light" src="{{ asset('logo-cropped.png') }}" alt="CiberEskola"><img class="admin-brand theme-logo-dark" src="{{ asset('logo-dark-transparent.png') }}" alt="CiberEskola"><span data-i18n="admin.title">⚙️ Panel de Administración</span></div>
     <span style="color:var(--muted); font-size:0.9rem;">Bienvenido, {{ Auth::user()->nombre }}</span>
 </div>
 
@@ -83,7 +83,7 @@
 {{-- GESTIÓN DE ALUMNOS --}}
 <div class="section">
     <div class="section-header">
-        <div class="section-title" style="margin:0;">👨‍🎓 Gestión de alumnos</div>
+        <div class="section-title" style="margin:0;" data-i18n="admin.students">👨‍🎓 Gestión de alumnos</div>
         <button onclick="toggleForm('form-alumno')" class="btn-primary" style="padding:0.5rem 1.25rem; border:none; border-radius:8px; cursor:pointer; font-family:inherit;">
             + Dar de alta alumno
         </button>
@@ -171,7 +171,7 @@
 {{-- GESTIÓN DE CURSOS --}}
 <div class="section">
     <div class="section-header">
-        <div class="section-title" style="margin:0;">📚 Gestión de cursos</div>
+        <div class="section-title" style="margin:0;" data-i18n="admin.courses">📚 Gestión de cursos</div>
         <button onclick="toggleForm('form-curso')" class="btn-primary" style="padding:0.5rem 1.25rem; border:none; border-radius:8px; cursor:pointer; font-family:inherit;">
             + Nuevo curso
         </button>

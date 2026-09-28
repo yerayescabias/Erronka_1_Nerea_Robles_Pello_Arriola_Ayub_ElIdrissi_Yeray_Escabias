@@ -351,12 +351,15 @@
         });
         const translations = {
             es: {
+                'login.title': '🔐 Iniciar sesión', 'register.title': '📋 Registrarse', 'admin.title': '⚙️ Panel de Administración',
+                'student.courses': '📚 Mis cursos', 'student.enrolled': '✅ Matriculado', 'student.already_enrolled': 'Ya estás inscrito en este curso', 'student.enrollments': '📋 Mis matrículas',
+                'admin.students': '👨‍🎓 Gestión de alumnos', 'admin.courses': '📚 Gestión de cursos',
                 'Iniciar sesión': 'Iniciar sesión',
                 'Registrarse': 'Registrarse',
                 'Mis cursos': 'Mis cursos',
                 'Panel Admin': 'Panel Admin',
                 'Salir': 'Salir',
-                'Cursos disponibles': 'Cursos disponibles',
+                'Cursos disponibles': 'Cursos disponibles', '📚 Mis cursos': '📚 Mis cursos',
                 '📚 Cursos disponibles': '📚 Cursos disponibles',
                 '🔐 Iniciar sesión': '🔐 Iniciar sesión',
                 '📋 Registrarse': '📋 Registrarse',
@@ -369,7 +372,12 @@
                 '¿No tienes cuenta?': '¿No tienes cuenta?',
                 'Regístrate aquí': 'Regístrate aquí',
                 'Activar cuenta': 'Activar cuenta',
-                'Alumno': 'Alumno', 'Matriculado': 'Matriculado', 'Básico': 'Básico',
+                'Activa tu cuenta de alumno': 'Activa tu cuenta de alumno',
+                'ℹ️ Para registrarte, el centro debe haber dado de alta tu correo previamente. Contacta con la administración si tienes problemas.': 'ℹ️ Para registrarte, el centro debe haber dado de alta tu correo previamente. Contacta con la administración si tienes problemas.',
+                'Correo electrónico (dado de alta por el centro)': 'Correo electrónico (dado de alta por el centro)',
+                'Elige una contraseña': 'Elige una contraseña', 'Mínimo 6 caracteres': 'Mínimo 6 caracteres',
+                'Confirma la contraseña': 'Confirma la contraseña', 'Repite la contraseña': 'Repite la contraseña',
+                'Alumno': 'Alumno', 'Matriculado': 'Matriculado', '✅ Matriculado': '✅ Matriculado', 'Básico': 'Básico',
                 'Intermedio': 'Intermedio', 'Avanzado': 'Avanzado', 'Matricularse': 'Matricularse',
                 'Ya estás inscrito en este curso': 'Ya estás inscrito en este curso',
                 'Mis matrículas': 'Mis matrículas', 'Curso': 'Curso', 'Estado': 'Estado',
@@ -381,15 +389,36 @@
                 'Panel de Administración': 'Panel de Administración', 'Bienvenido,': 'Bienvenido,',
                 'Alumnos': 'Alumnos', 'Cursos': 'Cursos', 'Matrículas': 'Matrículas',
                 'Cursos activos': 'Cursos activos', 'Gestión de alumnos': 'Gestión de alumnos',
-                'Gestión de cursos': 'Gestión de cursos', 'Matrículas recientes': 'Matrículas recientes'
+                'Gestión de cursos': 'Gestión de cursos', 'Matrículas recientes': 'Matrículas recientes',
+                '⚙️ Panel de Administración': '⚙️ Panel de Administración', '👨‍🎓 Alumnos': '👨‍🎓 Alumnos',
+                '📚 Cursos': '📚 Cursos', '📋 Matrículas': '📋 Matrículas', '✅ Cursos activos': '✅ Cursos activos',
+                '+ Dar de alta alumno': '+ Dar de alta alumno', 'Dar de alta alumno': 'Dar de alta alumno', 'Nombre completo': 'Nombre completo',
+                'Rol': 'Rol', 'Admin': 'Admin', 'Dar de alta': 'Dar de alta', 'Activada': 'Activada',
+                'Pendiente registro': 'Pendiente registro', 'Acciones': 'Acciones', 'Eliminar': 'Eliminar',
+                'No hay alumnos registrados.': 'No hay alumnos registrados.', 'Nuevo curso': 'Nuevo curso',
+                '+ Nuevo curso': '+ Nuevo curso', '📋 Matrículas recientes': '📋 Matrículas recientes', 'Nombre del curso': 'Nombre del curso', 'Categoría': 'Categoría', 'Descripción': 'Descripción',
+                'Nivel': 'Nivel', 'Duración (horas)': 'Duración (horas)', 'Crear curso': 'Crear curso',
+                'Nombre': 'Nombre', 'Duración': 'Duración', 'Alumnos': 'Alumnos', 'Editar': 'Editar',
+                'Guardar': 'Guardar', 'Desactivar': 'Desactivar', 'Activar': 'Activar',
+                'No hay cursos creados.': 'No hay cursos creados.', 'No hay matrículas.': 'No hay matrículas.',
+                'Curso eliminado': 'Curso eliminado', 'Solicitar': 'Solicitar', 'Pendiente': 'Pendiente',
+                'Completada': 'Completada', 'Cancelada': 'Cancelada', 'Buscar usuario por nombre o email...': 'Buscar usuario por nombre o email...',
+                'Buscar curso por nombre o categoria...': 'Buscar curso por nombre o categoria...',
+                'No se encontraron usuarios.': 'No se encontraron usuarios.', 'No se encontraron cursos.': 'No se encontraron cursos.'
+                , 'Matrícula realizada correctamente.': 'Matrícula realizada correctamente.'
+                , 'Matrícula cancelada correctamente.': 'Matrícula cancelada correctamente.'
+                , 'Estado del curso actualizado.': 'Estado del curso actualizado.'
             },
             eu: {
+                'login.title': '🔐 Saioa hasi', 'register.title': '📋 Erregistratu', 'admin.title': '⚙️ Administrazio panela',
+                'student.courses': '📚 Nire ikastaroak', 'student.enrolled': '✅ Matrikulatuta', 'student.already_enrolled': 'Ikastaro honetan izena emanda zaude', 'student.enrollments': '📋 Nire matrikulak',
+                'admin.students': '👨‍🎓 Ikasleen kudeaketa', 'admin.courses': '📚 Ikastaroen kudeaketa',
                 'Iniciar sesión': 'Saioa hasi',
                 'Registrarse': 'Erregistratu',
                 'Mis cursos': 'Nire ikastaroak',
                 'Panel Admin': 'Admin panela',
                 'Salir': 'Irten',
-                'Cursos disponibles': 'Eskuragarri dauden ikastaroak',
+                'Cursos disponibles': 'Eskuragarri dauden ikastaroak', '📚 Mis cursos': '📚 Nire ikastaroak',
                 '📚 Cursos disponibles': '📚 Eskuragarri dauden ikastaroak',
                 '🔐 Iniciar sesión': '🔐 Saioa hasi',
                 '📋 Registrarse': '📋 Erregistratu',
@@ -402,7 +431,12 @@
                 '¿No tienes cuenta?': 'Ez duzu konturik?',
                 'Regístrate aquí': 'Erregistratu hemen',
                 'Activar cuenta': 'Aktibatu kontua',
-                'Alumno': 'Ikaslea', 'Matriculado': 'Matrikulatuta', 'Básico': 'Oinarrizkoa',
+                'Activa tu cuenta de alumno': 'Ikaslearen kontua aktibatu',
+                'ℹ️ Para registrarte, el centro debe haber dado de alta tu correo previamente. Contacta con la administración si tienes problemas.': 'ℹ️ Izena emateko, zentroak zure posta elektronikoa aurrez erregistratu behar du. Arazoak badituzu, jarri harremanetan administrazioarekin.',
+                'Correo electrónico (dado de alta por el centro)': 'Posta elektronikoa (zentroak erregistratua)',
+                'Elige una contraseña': 'Aukeratu pasahitza', 'Mínimo 6 caracteres': 'Gutxienez 6 karaktere',
+                'Confirma la contraseña': 'Berretsi pasahitza', 'Repite la contraseña': 'Errepikatu pasahitza',
+                'Alumno': 'Ikaslea', 'Matriculado': 'Matrikulatuta', '✅ Matriculado': '✅ Matrikulatuta', 'Básico': 'Oinarrizkoa',
                 'Intermedio': 'Ertaina', 'Avanzado': 'Aurreratua', 'Matricularse': 'Matrikulatu',
                 'Ya estás inscrito en este curso': 'Ikastaro honetan izena emanda zaude',
                 'Mis matrículas': 'Nire matrikulak', 'Curso': 'Ikastaroa', 'Estado': 'Egoera',
@@ -414,11 +448,40 @@
                 'Panel de Administración': 'Administrazio panela', 'Bienvenido,': 'Ongi etorri,',
                 'Alumnos': 'Ikasleak', 'Cursos': 'Ikastaroak', 'Matrículas': 'Matrikulak',
                 'Cursos activos': 'Ikastaro aktiboak', 'Gestión de alumnos': 'Ikasleen kudeaketa',
-                'Gestión de cursos': 'Ikastaroen kudeaketa', 'Matrículas recientes': 'Azken matrikulak'
+                'Gestión de cursos': 'Ikastaroen kudeaketa', 'Matrículas recientes': 'Azken matrikulak',
+                '⚙️ Panel de Administración': '⚙️ Administrazio panela', '👨‍🎓 Alumnos': '👨‍🎓 Ikasleak',
+                '📚 Cursos': '📚 Ikastaroak', '📋 Matrículas': '📋 Matrikulak', '✅ Cursos activos': '✅ Ikastaro aktiboak',
+                '+ Dar de alta alumno': '+ Ikaslea alta eman', 'Dar de alta alumno': 'Ikaslea alta eman', 'Nombre completo': 'Izen-abizenak',
+                'Rol': 'Rola', 'Admin': 'Administratzailea', 'Dar de alta': 'Alta eman', 'Activada': 'Aktibatuta',
+                'Pendiente registro': 'Erregistroaren zain', 'Acciones': 'Ekintzak', 'Eliminar': 'Ezabatu',
+                'No hay alumnos registrados.': 'Ez dago erregistratutako ikaslerik.', 'Nuevo curso': 'Ikastaro berria',
+                '+ Nuevo curso': '+ Ikastaro berria', '📋 Matrículas recientes': '📋 Azken matrikulak', 'Nombre del curso': 'Ikastaroaren izena', 'Categoría': 'Kategoria', 'Descripción': 'Deskribapena',
+                'Nivel': 'Maila', 'Duración (horas)': 'Iraupena (orduak)', 'Crear curso': 'Ikastaroa sortu',
+                'Nombre': 'Izena', 'Duración': 'Iraupena', 'Alumnos': 'Ikasleak', 'Editar': 'Editatu',
+                'Guardar': 'Gorde', 'Desactivar': 'Desaktibatu', 'Activar': 'Aktibatu',
+                'No hay cursos creados.': 'Ez dago sortutako ikastarorik.', 'No hay matrículas.': 'Ez dago matrikularik.',
+                'Curso eliminado': 'Ikastaroa ezabatuta', 'Solicitar': 'Eskatu', 'Pendiente': 'Zain',
+                'Completada': 'Osatuta', 'Cancelada': 'Bertan behera', 'Buscar usuario por nombre o email...': 'Bilatu erabiltzailea izen edo posta elektronikoaren arabera...',
+                'Buscar curso por nombre o categoria...': 'Bilatu ikastaroa izen edo kategoriaren arabera...',
+                'No se encontraron usuarios.': 'Ez da erabiltzailerik aurkitu.', 'No se encontraron cursos.': 'Ez da ikastarorik aurkitu.'
+                , 'Matrícula realizada correctamente.': 'Matrikula behar bezala eginda.'
+                , 'Matrícula cancelada correctamente.': 'Matrikula bertan behera utzi da.'
+                , 'Estado del curso actualizado.': 'Ikastaroaren egoera eguneratu da.'
+                , 'Gestión de alumnos': 'Ikasleen kudeaketa', 'Gestión de cursos': 'Ikastaroen kudeaketa', 'Gestión de matrículas': 'Matrikulen kudeaketa'
+                , 'Estado cuenta': 'Kontuaren egoera', 'Activar cuenta': 'Kontua aktibatu', 'Desactivar cuenta': 'Kontua desaktibatu'
+                , 'correo electrónico': 'posta elektronikoa', 'Contraseña': 'Pasahitza', 'Nombre completo': 'Izen-abizenak', 'Rol': 'Rola'
+                , 'Elige una contraseña': 'Aukeratu pasahitza' 
+                , 'confirmar contraseña': 'pasahitza berretsi', 'Correo electrónico': 'Posta elektronikoa', 'Contraseña': 'Pasahitza'
+                , '¿Ya tienes cuenta?' : '¿Dagoeneko kontua al duzu?', '← Volver al inicio' : '← Hasierara itzuli', '¿Cancelar esta matrícula?': 'Matrikula hau bertan behera utzi?', '¿Eliminar al alumno .*?\?': 'Ikasle hau ezabatu?', '¿Eliminar el curso .*?\?': 'Ikastaro hau ezabatu?'
+                , 'inicia sesion': 'saioa hasi', 'Accede a tu cuenta de CiberEskola' : 'Sartu zure CiberEskola kontuan' , 'Mis cursos' : 'Nire ikastaroak'
             }
         };
         const translatePage = (language) => {
             document.documentElement.lang = language === 'eu' ? 'eu' : 'es';
+            document.querySelectorAll('[data-i18n]').forEach((element) => {
+                const translation = translations[language][element.dataset.i18n];
+                if (translation) element.textContent = translation;
+            });
             const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
             while (walker.nextNode()) {
                 const node = walker.currentNode;
@@ -436,6 +499,19 @@
                 if (translations[language][field.placeholder]) {
                     field.placeholder = translations[language][field.placeholder];
                 }
+            });
+            document.querySelectorAll('[onsubmit]').forEach((form) => {
+                let confirmation = form.getAttribute('onsubmit');
+                if (language === 'eu') {
+                    confirmation = confirmation.replace('¿Cancelar esta matrícula?', 'Matrikula hau bertan behera utzi?');
+                    confirmation = confirmation.replace(/¿Eliminar al alumno .*?\?/, 'Ikasle hau ezabatu?');
+                    confirmation = confirmation.replace(/¿Eliminar el curso .*?\?/, 'Ikastaro hau ezabatu?');
+                } else {
+                    confirmation = confirmation.replace('Matrikula hau bertan behera utzi?', '¿Cancelar esta matrícula?');
+                    confirmation = confirmation.replace('Ikasle hau ezabatu?', '¿Eliminar este alumno?');
+                    confirmation = confirmation.replace('Ikastaro hau ezabatu?', '¿Eliminar este curso?');
+                }
+                form.setAttribute('onsubmit', confirmation);
             });
             languageToggle.textContent = language === 'eu' ? 'EU / ES' : 'ES / EU';
             localStorage.setItem('ciberskola-language', language);

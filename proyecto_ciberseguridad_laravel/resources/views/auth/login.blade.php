@@ -58,7 +58,7 @@
     <div class="auth-box">
         <img class="auth-logo auth-logo-light" src="{{ asset('logo-cropped.png') }}" alt="CiberEskola">
         <img class="auth-logo auth-logo-dark" src="{{ asset('logo-dark-transparent.png') }}" alt="CiberEskola">
-        <div class="auth-title">🔐 Iniciar sesión</div>
+        <div class="auth-title" data-i18n="login.title">🔐 Iniciar sesión</div>
         <div class="auth-subtitle">Accede a tu cuenta de CiberEskola</div>
 
         @if($errors->any())
