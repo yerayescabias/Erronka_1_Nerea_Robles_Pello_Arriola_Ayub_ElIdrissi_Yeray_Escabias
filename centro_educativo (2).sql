@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-09-2026 a las 08:28:12
+-- Tiempo de generación: 01-10-2026 a las 10:30:36
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -32,20 +32,25 @@ CREATE TABLE `cursos` (
   `titulo` varchar(150) NOT NULL,
   `hasiera_data` date DEFAULT NULL,
   `bukaera_data` date DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `descripcion` text DEFAULT NULL,
+  `categoria` varchar(100) DEFAULT NULL,
+  `duracion_horas` int(10) UNSIGNED DEFAULT NULL,
+  `nivel` varchar(20) DEFAULT NULL,
+  `activo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `cursos`
 --
 
-INSERT INTO `cursos` (`id`, `titulo`, `hasiera_data`, `bukaera_data`, `created_at`) VALUES
-(2, 'Hacking Ético y Pentesting', NULL, NULL, '2026-09-25 10:04:36'),
-(3, 'Análisis Forense Digital', NULL, NULL, '2026-09-25 10:04:36'),
-(4, 'Seguridad en Redes y Sistemas', NULL, NULL, '2026-09-25 10:04:36'),
-(5, 'Ciberseguridad para Principiantes', NULL, NULL, '2026-09-25 10:04:36'),
-(6, 'OSINT e Inteligencia en Fuentes Abiertas', NULL, NULL, '2026-09-25 10:04:36'),
-(7, 'Respuesta a Incidentes y Blue Team', NULL, NULL, '2026-09-25 10:04:36');
+INSERT INTO `cursos` (`id`, `titulo`, `hasiera_data`, `bukaera_data`, `created_at`, `descripcion`, `categoria`, `duracion_horas`, `nivel`, `activo`) VALUES
+(2, 'Hacking Ético y Pentesting', NULL, NULL, '2026-09-25 10:04:36', 'sdfd', 'Fundamentos', 50, 'basico', 1),
+(3, 'Análisis Forense Digital', NULL, NULL, '2026-09-25 10:04:36', NULL, NULL, NULL, NULL, 1),
+(4, 'Seguridad en Redes y Sistemas', NULL, NULL, '2026-09-25 10:04:36', NULL, NULL, NULL, NULL, 1),
+(5, 'Ciberseguridad para Principiantes', NULL, NULL, '2026-09-25 10:04:36', NULL, NULL, NULL, NULL, 1),
+(6, 'OSINT e Inteligencia en Fuentes Abiertas', NULL, NULL, '2026-09-25 10:04:36', NULL, NULL, NULL, NULL, 1),
+(7, 'Respuesta a Incidentes y Blue Team', NULL, NULL, '2026-09-25 10:04:36', NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -86,7 +91,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2019_08_19_000000_create_failed_jobs_table', 1),
 (5, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (6, '2026_09_24_085347_create_cursos_table', 1),
-(7, '2026_09_24_085349_create_matriculas_table', 1);
+(7, '2026_09_24_085349_create_matriculas_table', 1),
+(8, '2026_10_01_000000_add_course_fields_to_cursos_table', 2);
 
 -- --------------------------------------------------------
 
@@ -263,7 +269,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
