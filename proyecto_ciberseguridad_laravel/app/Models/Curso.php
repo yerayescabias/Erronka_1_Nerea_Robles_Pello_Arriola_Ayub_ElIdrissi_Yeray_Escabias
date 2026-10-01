@@ -25,6 +25,7 @@ class Curso extends Model
         'nivel',
         'activo',
     ];
+    public function getNombreAttribute(): string { return $this->titulo; }
     public function setNombreAttribute($value): void { $this->attributes['titulo'] = $value; }
     
     protected $casts = [
