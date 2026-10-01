@@ -25,15 +25,12 @@ class Curso extends Model
         'nivel',
         'activo',
     ];
-
-    public function getNombreAttribute(): string { return $this->titulo; }
-    public function getActivoAttribute(): bool { return true; }
     public function setNombreAttribute($value): void { $this->attributes['titulo'] = $value; }
-    public function setDescripcionAttribute($value): void {}
-    public function setCategoriaAttribute($value): void {}
-    public function setDuracionHorasAttribute($value): void {}
-    public function setNivelAttribute($value): void {}
-    public function setActivoAttribute($value): void {}
+    
+    protected $casts = [
+        'activo' => 'boolean',
+    ];
+
 
     // ── Relaciones ──────────────────────────────────────────
     public function matriculas()
@@ -52,7 +49,7 @@ class Curso extends Model
     /** Devuelve todos los cursos activos */
     public static function activos()
     {
-        return self::all();
+        return self::where('activo', true)->get();
     }
 
     /** Devuelve todos los cursos */
@@ -83,7 +80,15 @@ class Curso extends Model
     public static function crear(array $datos)
     {
         if (isset($datos['nombre'])) { $datos['titulo'] = $datos['nombre']; unset($datos['nombre']); }
-        $datos = array_intersect_key($datos, array_flip(['titulo', 'hasiera_data', 'bukaera_data']));
+        $datos = array_intersect_key($datos, array_flip([
+            'titulo',
+            'descripcion',
+            'categoria',
+            'duracion_horas',
+            'nivel',
+            'hasiera_data',
+            'bukaera_data',
+        ]));
         return self::create($datos);
     }
 
@@ -91,7 +96,15 @@ class Curso extends Model
     public function actualizar(array $datos)
     {
         if (isset($datos['nombre'])) { $datos['titulo'] = $datos['nombre']; unset($datos['nombre']); }
-        $datos = array_intersect_key($datos, array_flip(['titulo', 'hasiera_data', 'bukaera_data']));
+        $datos = array_intersect_key($datos, array_flip([
+            'titulo',
+            'descripcion',
+            'categoria',
+            'duracion_horas',
+            'nivel',
+            'hasiera_data',
+            'bukaera_data',
+        ]));
         $this->update($datos);
         return $this;
     }
@@ -99,12 +112,14 @@ class Curso extends Model
     /** Desactiva el curso (baja lógica) */
     public function desactivar()
     {
+        $this->update(['activo' => false]);
         return $this;
     }
 
     /** Activa el curso */
     public function activar()
     {
+        $this->update(['activo' => true]);
         return $this;
     }
 
