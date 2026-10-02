@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  code:
     runs-on: ubuntu-latest
 
     steps:
@@ -42,4 +42,51 @@ jobs:
         run: php artisan key:generate --force
 
       - name: Run tests
+        run: php artisan test
+
+  database:
+    runs-on: ubuntu-latest
+    env:
+      APP_ENV: testing
+      APP_KEY: base64:VGhpc0lzQVN0YXRpY0tleUZvckdpdGh1YkFjdGlvbnM=
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: cibereskola_test
+      DB_USERNAME: root
+      DB_PASSWORD: root
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: cibereskola_test
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, pdo_mysql
+          coverage: none
+          tools: composer:v2
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run database migrations
+        run: php artisan migrate --force
+
+      - name: Run tests against MySQL
         run: php artisan test
