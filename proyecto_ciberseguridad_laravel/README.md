@@ -2,11 +2,158 @@
 
 Aplicacion web educativa de ciberseguridad construida con Laravel. Incluye autenticacion, roles de administracion y alumnado, gestion de cursos, matriculas, cambio de idioma castellano/euskera y temas claro/oscuro.
 
-## Documentacion
+### 1. Aplicacion basica funcional
 
-- [Infraestructura de red, VLAN, puertos, Proxmox y Active Directory](docs/infraestructura-red.md)
-- [Evidencias y checklist de evaluacion](docs/evidencias-of.md)
-- [Despliegue en la DMZ](deploy/README.md)
+Se ha desarrollado una aplicacion web educativa llamada **CiberEskola**, orientada a la gestion de cursos de ciberseguridad y matriculas de alumnado. La aplicacion se ha construido con Laravel y sigue una arquitectura MVC (Modelo, Vista y Controlador).
+
+Las funcionalidades principales que estan implementadas son:
+
+- Pagina publica con el listado de cursos activos.
+- Inicio y cierre de sesion.
+- Activacion de cuentas de alumnado previamente registrado.
+- Gestion diferenciada mediante los roles `admin` y `alumno`.
+- Panel de administracion para gestionar usuarios, cursos y matriculas.
+- Panel de alumnado para consultar cursos y matricularse.
+- Cancelacion de las matriculas propias.
+- Activacion y desactivacion de cursos.
+- Busqueda y filtrado de informacion en el panel de administracion.
+
+El flujo principal es el siguiente:
+
+1. El administrador registra al alumno y crea los cursos.
+2. El alumno activa su cuenta y establece una contrasena.
+3. El alumno inicia sesion y accede a su panel.
+4. El alumno se matricula en cursos activos.
+5. El administrador consulta y gestiona las matriculas.
+
+Las rutas se definen en [routes/web.php](routes/web.php), la autenticacion en [AuthController.php](app/Http/Controllers/AuthController.php), la administracion en [AdminController.php](app/Http/Controllers/AdminController.php) y las funciones del alumnado en [AlumnoController.php](app/Http/Controllers/AlumnoController.php).
+
+### 2. PHP y programacion orientada a objetos
+
+El proyecto esta desarrollado en PHP utilizando Laravel. Se aplican los principios de la programacion orientada a objetos mediante clases, propiedades, metodos, herencia y relaciones entre objetos.
+
+Las clases principales son:
+
+- `User`, que representa a los usuarios y sus roles.
+- `Curso`, que representa los cursos disponibles.
+- `Matricula`, que representa la relacion entre un alumno y un curso.
+- Los controladores, que agrupan la logica de cada parte de la aplicacion.
+- Los middleware, que controlan la autenticacion, los roles y las cabeceras de seguridad.
+
+Los modelos utilizan Eloquent ORM, la capa de Laravel que permite trabajar con las tablas de la base de datos mediante objetos PHP. Por ejemplo, el modelo `Curso` permite consultar cursos activos y el modelo `Matricula` permite comprobar, crear y cancelar matriculas.
+
+La organizacion por clases evita concentrar toda la logica en un unico archivo y facilita reutilizar el codigo, mantenerlo y ampliarlo.
+
+Las evidencias principales se encuentran en [app/Models](app/Models), [app/Http/Controllers](app/Http/Controllers) y [app/Http/Middleware](app/Http/Middleware).
+
+### 3. Organizacion avanzada del codigo PHP
+
+Laravel proporciona una estructura avanzada para organizar el proyecto:
+
+- **Modelos:** representan los datos y sus relaciones.
+- **Controladores:** reciben las peticiones y ejecutan la logica de la aplicacion.
+- **Middleware:** filtran las peticiones antes de llegar al controlador.
+- **Rutas:** conectan las direcciones web con las acciones correspondientes.
+- **Vistas Blade:** muestran la informacion al usuario.
+- **Migraciones:** describen la estructura de la base de datos mediante clases PHP.
+- **Seeders:** insertan los datos iniciales.
+
+Los controladores utilizan validacion de datos, redirecciones y mensajes de sesion. Los modelos definen los campos que se pueden guardar y las relaciones entre tablas. Ademas, se utilizan metodos reutilizables para consultas como la obtencion de cursos activos o la comprobacion de matriculas duplicadas.
+
+Esta organizacion permite aplicar el principio de responsabilidad unica: cada parte del proyecto tiene una funcion concreta y las responsabilidades estan separadas.
+
+### 4. Gestion de la base de datos: CRUD
+
+La aplicacion realiza operaciones CRUD sobre la informacion almacenada:
+
+| Operacion | Funcion implementada |
+| --- | --- |
+| Create | El administrador crea usuarios y cursos; las matriculas se crean cuando un alumno se inscribe. |
+| Read | Se consultan cursos, usuarios, matriculas y estadisticas desde las vistas correspondientes. |
+| Update | El administrador modifica los datos de los cursos y cambia su estado. |
+| Delete | El administrador elimina usuarios y cursos; el alumno puede cancelar sus propias matriculas. |
+
+Las tablas y relaciones se crean mediante las migraciones de [database/migrations](database/migrations). Las tablas principales son:
+
+- `Rol`, con los roles de la aplicacion.
+- `Usuarios`, con los datos de los usuarios.
+- `cursos`, con la informacion de los cursos.
+- `UsuariosCursos`, que relaciona usuarios y cursos.
+
+La tabla `UsuariosCursos` tiene una restriccion unica para impedir que un alumno se matricule dos veces en el mismo curso. Las claves externas utilizan borrado en cascada para mantener la integridad de los datos.
+
+### 5. Uso de MySQL
+
+La aplicacion esta preparada para utilizar **MySQL** en el entorno de produccion. La conexion se configura en el archivo `.env` mediante las variables de Laravel:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=192.168.30.10
+DB_PORT=3306
+DB_DATABASE=centro_educativo
+DB_USERNAME=ciberskola_app
+DB_PASSWORD=CONTRASENA_REAL
+```
+
+MySQL almacena de forma permanente los usuarios, cursos, roles y matriculas. El servidor web se encuentra en la DMZ y se conecta al servidor MySQL de la red de servicios utilizando el puerto `3306`. El firewall limita el acceso para que solamente el servidor web pueda conectarse a la base de datos.
+
+Para crear la estructura de tablas en MySQL se ejecutan las migraciones de Laravel:
+
+```bash
+php artisan migrate --force
+```
+
+Durante el desarrollo local se utiliza SQLite para facilitar las pruebas sin depender de un servidor externo. El cambio entre SQLite y MySQL se realiza modificando `DB_CONNECTION` en `.env`; el codigo de la aplicacion se mantiene igual porque Laravel utiliza Eloquent ORM.
+
+### 6. Interfaz y elementos adicionales
+
+La interfaz se ha desarrollado con vistas Blade, HTML, CSS y JavaScript. Las vistas comparten la estructura de [app.blade.php](resources/views/layouts/app.blade.php), que contiene la navegacion, el logo, los mensajes y el pie de pagina.
+
+Se han añadido los siguientes elementos para mejorar la experiencia de uso:
+
+- Diseño adaptable a ordenador, tablet y movil.
+- Tema claro y tema oscuro guardados en `localStorage`.
+- Cambio de idioma entre castellano y euskera.
+- Mensajes de confirmacion y notificaciones tipo toast.
+- Indicadores de carga al enviar formularios.
+- Confirmacion antes de eliminar datos o cancelar matriculas.
+- Busqueda y filtrado de tablas en el panel de administracion.
+- Estilos diferenciados para cursos, estados, botones y paneles.
+
+El comportamiento dinamico se implementa principalmente con JavaScript en las vistas Blade. La configuracion de recursos frontend se encuentra en [vite.config.js](vite.config.js) y los recursos generales en [resources/js](resources/js) y [resources/css](resources/css).
+
+### 7. Seguridad aplicada
+
+Ademas de las funcionalidades de la rubrica, se han aplicado medidas de seguridad:
+
+- Contraseñas almacenadas mediante hash.
+- Proteccion CSRF en los formularios.
+- Middleware `auth` para las zonas privadas.
+- Middleware de roles para separar administradores y alumnos.
+- Limitacion de intentos de inicio de sesion.
+- Validacion de los datos recibidos.
+- Prevencion de matriculas duplicadas.
+- Cabeceras HTTP de seguridad mediante `SecurityHeaders`.
+- Restriccion para que cada alumno solo pueda cancelar sus propias matriculas.
+
+Las comprobaciones de seguridad se encuentran principalmente en [CheckRole.php](app/Http/Middleware/CheckRole.php), [SecurityHeaders.php](app/Http/Middleware/SecurityHeaders.php) y en los controladores.
+
+### 8. Evidencias para la evaluacion
+
+Para demostrar el funcionamiento de la aplicacion se pueden realizar las siguientes pruebas:
+
+1. Acceder a la pagina publica y comprobar que aparecen los cursos activos.
+2. Iniciar sesion como administrador y crear, editar, activar y eliminar un curso.
+3. Registrar un alumno desde el panel de administracion.
+4. Activar la cuenta del alumno y acceder con sus credenciales.
+5. Matricularse en un curso y comprobar que aparece en el panel del alumno.
+6. Intentar repetir la matricula y comprobar que el sistema la rechaza.
+7. Cancelar la matricula desde la cuenta del alumno.
+8. Comprobar que un alumno no puede acceder al panel de administracion.
+9. Cambiar el idioma y el tema visual.
+10. Ejecutar las pruebas automaticas con `php artisan test`.
+
+Estas pruebas cubren las funcionalidades principales, la programacion orientada a objetos, las operaciones CRUD, la persistencia en base de datos, los roles y los elementos adicionales de la interfaz.
 
 ## Ejecucion local sin XAMPP
 
